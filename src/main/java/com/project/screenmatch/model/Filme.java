@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
 import java.util.OptionalDouble;
 
 @Getter
@@ -46,4 +45,25 @@ public class Filme {
     this.votos = Long.parseLong(dadoOmdb.nota().replace(",", ""));
     }
 
+    @Override
+    public String toString() {
+        return """
+                Titulo:%s
+                Ano:%s
+                Data de Lançamento:%s
+                Tempo de duração:%s
+                Gênero:%s
+                Diretor:%s
+                Roteirista:%s
+                Atores:%s
+                Sinopse:%s
+                Idioma:%s
+                País:%s
+                Premiações:%s
+                Imagem:%s
+                Nota:%.1f
+                Quantidade de votos:%d
+                """.formatted(titulo,ano,dataDeLancamento,tempoDeDuracao,genero,diretor,roteirista
+                ,atores,sinopse,idioma,pais,premiacoes,urlDaImagem,nota,votos);
+    }
 }

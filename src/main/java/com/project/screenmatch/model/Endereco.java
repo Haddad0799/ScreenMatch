@@ -6,11 +6,10 @@ public class Endereco {
     @Value("${API_ENDPOINT}")
     private static String ENDERECOBASE;
 
-    private String pesquisaDoUsuario;
     @Value("${API_KEY}")
     private static String APIKEY;
     @Value("TEMPORADA")
-    private String TEMPORADAENDPOINT;
+    private static String TEMPORADAENDPOINT;
 
 
 

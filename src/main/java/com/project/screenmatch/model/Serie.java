@@ -1,10 +1,8 @@
 package com.project.screenmatch.model;
 
-import com.fasterxml.jackson.annotation.JsonAlias;
 import com.project.screenmatch.dtos.DadoOmdb;
 import jakarta.persistence.Entity;
 
-import java.util.Date;
 import java.util.OptionalDouble;
 
 @Entity
@@ -25,6 +23,7 @@ public class Serie {
     private String urlDaImagem;
     private Double nota;
     private Long votos;
+
     public Serie(DadoOmdb dadoOmdb) {
         this.titulo = dadoOmdb.titulo();
         this.temporadas = dadoOmdb.temporadas();
@@ -42,5 +41,28 @@ public class Serie {
         this.urlDaImagem = dadoOmdb.urlDaImagem();
         this.nota = OptionalDouble.of(Double.parseDouble(dadoOmdb.nota())).orElse(0.0);
         this.votos = Long.parseLong(dadoOmdb.nota().replace(",", ""));
+    }
+
+    @Override
+    public String toString() {
+        return """
+                Titulo:%s
+                Temporadas:%d
+                Ano:%s
+                Data de Lançamento:%s
+                Tempo de duração:%s
+                Gênero:%s
+                Diretor:%s
+                Roteirista:%s
+                Atores:%s
+                Sinopse:%s
+                Idioma:%s
+                País:%s
+                Premiações:%s
+                Imagem:%s
+                Nota:%.1f
+                Quantidade de votos:%d
+                """.formatted(titulo, temporadas, ano, dataDeLancamento, tempoDeDuracao, genero, diretor
+                , roteirista, atores, sinopse, idioma, pais, premiacoes, urlDaImagem, nota, votos);
     }
 }
