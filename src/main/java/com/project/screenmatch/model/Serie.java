@@ -1,30 +1,35 @@
 package com.project.screenmatch.model;
 
-import com.project.screenmatch.dtos.DadoOmdb;
+import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import jakarta.persistence.Entity;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.OptionalDouble;
 
+@Getter
 @Entity
 public class Serie {
-    private String titulo;
-    private Integer temporadas;
-    private String ano;
-    private String dataDeLancamento;
-    private String tempoDeDuracao;
-    private Categoria genero;
-    private String diretor;
-    private String roteirista;
-    private String atores;
-    private String sinopse;
-    private String idioma;
-    private String pais;
-    private String premiacoes;
-    private String urlDaImagem;
+    private final String titulo;
+    private final Integer temporadas;
+    private final String ano;
+    private final String dataDeLancamento;
+    private final String tempoDeDuracao;
+    private final Categoria genero;
+    private final String diretor;
+    private final String roteirista;
+    private final String atores;
+    private final String sinopse;
+    private final String idioma;
+    private final String pais;
+    private final String premiacoes;
+    private final String urlDaImagem;
+    @Setter
     private Double nota;
+    @Setter
     private Long votos;
 
-    public Serie(DadoOmdb dadoOmdb) {
+    public Serie(DadoOmdbTitulo dadoOmdb) {
         this.titulo = dadoOmdb.titulo();
         this.temporadas = dadoOmdb.temporadas();
         this.ano = dadoOmdb.ano();

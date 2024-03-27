@@ -1,6 +1,6 @@
 package com.project.screenmatch.model;
 
-import com.project.screenmatch.dtos.DadoOmdb;
+import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class Filme {
     private Double nota;
     @Setter
     private Long votos;
-    public Filme(DadoOmdb dadoOmdb) {
+    public Filme(DadoOmdbTitulo dadoOmdb) {
     this.titulo = dadoOmdb.titulo();
     this.ano = dadoOmdb.ano();
     this.dataDeLancamento = dadoOmdb.dataDeLancamento();

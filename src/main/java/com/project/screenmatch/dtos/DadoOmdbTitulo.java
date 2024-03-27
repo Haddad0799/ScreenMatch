@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public record DadoOmdb(
+public record DadoOmdbTitulo(
         @JsonAlias("Title") String titulo,
         @JsonAlias("totalSeasons") Integer temporadas,
         @JsonAlias("Year") String ano,
@@ -22,7 +22,6 @@ public record DadoOmdb(
         @JsonAlias("imdbRating") String nota,
         @JsonAlias("imdbVotes") String votos,
         @JsonAlias("Type") String tipo
-
 
 ) {
 }
