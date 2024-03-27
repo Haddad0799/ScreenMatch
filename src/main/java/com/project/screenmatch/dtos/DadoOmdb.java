@@ -20,6 +20,9 @@ public record DadoOmdb(
         @JsonAlias("Awards") String premiacoes,
         @JsonAlias("Poster") String urlDaImagem,
         @JsonAlias("imdbRating") String nota,
-        @JsonAlias("imdbVotes") String votos
+        @JsonAlias("imdbVotes") String votos,
+        @JsonAlias("Type") String tipo
+
+
 ) {
 }
