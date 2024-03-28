@@ -1,7 +1,7 @@
 package com.project.screenmatch.model;
 
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,12 +9,18 @@ import java.util.OptionalDouble;
 
 @Getter
 @Entity
+@Table(name ="Series")
 public class Serie {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long IdScreenmatch;
+    @Column(unique = true)
     private final String titulo;
     private final Integer temporadas;
     private final String ano;
     private final String dataDeLancamento;
     private final String tempoDeDuracao;
+    @Enumerated(EnumType.STRING)
     private final Categoria genero;
     private final String diretor;
     private final String roteirista;
@@ -28,14 +34,13 @@ public class Serie {
     private Double nota;
     @Setter
     private Long votos;
-
     public Serie(DadoOmdbTitulo dadoOmdb) {
         this.titulo = dadoOmdb.titulo();
         this.temporadas = dadoOmdb.temporadas();
         this.ano = dadoOmdb.ano();
         this.dataDeLancamento = dadoOmdb.dataDeLancamento();
         this.tempoDeDuracao = dadoOmdb.tempoDeDuracao();
-        this.genero = Categoria.fromString(dadoOmdb.genero().trim());
+        this.genero = Categoria.fromString(dadoOmdb.genero().split(",")[0].trim());
         this.diretor = dadoOmdb.diretor();
         this.roteirista = dadoOmdb.roteirista();
         this.atores = dadoOmdb.atores();
@@ -45,7 +50,7 @@ public class Serie {
         this.premiacoes = dadoOmdb.premiacoes();
         this.urlDaImagem = dadoOmdb.urlDaImagem();
         this.nota = OptionalDouble.of(Double.parseDouble(dadoOmdb.nota())).orElse(0.0);
-        this.votos = Long.parseLong(dadoOmdb.nota().replace(",", ""));
+        this.votos = Long.parseLong(dadoOmdb.votos().replace(",", ""));
     }
 
     @Override

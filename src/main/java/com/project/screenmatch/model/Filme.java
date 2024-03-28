@@ -1,19 +1,26 @@
 package com.project.screenmatch.model;
 
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 
 import java.util.OptionalDouble;
 
 @Getter
 @Entity
+@Table(name = "Filmes")
 public class Filme {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long IdScreenmatch;
+    @Column(unique = true)
     private final String titulo;
     private final String ano;
     private final String  dataDeLancamento;
     private final String tempoDeDuracao;
+    @Enumerated(EnumType.STRING)
     private final Categoria genero;
     private final String diretor;
     private final String roteirista;
