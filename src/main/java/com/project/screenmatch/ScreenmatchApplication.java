@@ -20,9 +20,11 @@ public class ScreenmatchApplication implements CommandLineRunner {
 
 		ConsumirApiOmdb consumirApiOmdb = new ConsumirApiOmdb();
 
-		String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo("the walking dead"));
-		DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json, DadoOmdbTitulo.class);
-		Serie serie = new Serie(dadoOmdbTitulo);
-		System.out.println(serie);
+		String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTemporada("the walking dead", 1));
+		System.out.println(json);
+		System.out.println(Endereco.montaEnderecoTemporada("the walking dead", 1));
+		//DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json, DadoOmdbTitulo.class);
+		//Serie serie = new Serie(dadoOmdbTitulo);
+		//System.out.println(serie);
 	}
 }
