@@ -39,7 +39,7 @@ public class Filme {
     this.ano = dadoOmdb.ano();
     this.dataDeLancamento = dadoOmdb.dataDeLancamento();
     this.tempoDeDuracao = dadoOmdb.tempoDeDuracao();
-    this.genero = Categoria.fromString(dadoOmdb.genero().trim());
+    this.genero = Categoria.fromString(dadoOmdb.genero().split(",")[0].trim());
     this.diretor = dadoOmdb.diretor();
     this.roteirista = dadoOmdb.roteirista();
     this.atores = dadoOmdb.atores();
@@ -49,7 +49,7 @@ public class Filme {
     this.premiacoes = dadoOmdb.premiacoes();
     this.urlDaImagem = dadoOmdb.urlDaImagem();
     this.nota = OptionalDouble.of(Double.parseDouble(dadoOmdb.nota())).orElse(0.0);
-    this.votos = Long.parseLong(dadoOmdb.nota().replace(",", ""));
+    this.votos = Long.parseLong(dadoOmdb.votos().replace(",", ""));
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.project.screenmatch.infraestruct;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.screenmatch.service.ConsumirApi;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -10,6 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+@Service
 public class ConsumirApiOmdb implements ConsumirApi {
 
     private final ObjectMapper mapper = new ObjectMapper();
