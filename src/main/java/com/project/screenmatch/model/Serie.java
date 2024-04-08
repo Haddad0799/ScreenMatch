@@ -15,25 +15,27 @@ public class Serie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long IdScreenmatch;
     @Column(unique = true)
-    private final String titulo;
-    private final Integer temporadas;
-    private final String ano;
-    private final String dataDeLancamento;
-    private final String tempoDeDuracao;
+    private String titulo;
+    private Integer temporadas;
+    private String ano;
+    private String dataDeLancamento;
+    private String tempoDeDuracao;
     @Enumerated(EnumType.STRING)
-    private final Categoria genero;
-    private final String diretor;
-    private final String roteirista;
-    private final String atores;
-    private final String sinopse;
-    private final String idioma;
-    private final String pais;
-    private final String premiacoes;
-    private final String urlDaImagem;
+    private Categoria genero;
+    private String diretor;
+    private String roteirista;
+    private String atores;
+    private String sinopse;
+    private String idioma;
+    private String pais;
+    private String premiacoes;
+    private String urlDaImagem;
     @Setter
     private Double nota;
     @Setter
     private Long votos;
+
+
     public Serie(DadoOmdbTitulo dadoOmdb) {
         this.titulo = dadoOmdb.titulo();
         this.temporadas = dadoOmdb.temporadas();
@@ -52,6 +54,8 @@ public class Serie {
         this.nota = OptionalDouble.of(Double.parseDouble(dadoOmdb.nota())).orElse(0.0);
         this.votos = Long.parseLong(dadoOmdb.votos().replace(",", ""));
     }
+
+    public Serie() {}
 
     @Override
     public String toString() {
@@ -75,4 +79,6 @@ public class Serie {
                 """.formatted(titulo, temporadas, ano, dataDeLancamento, tempoDeDuracao, genero, diretor
                 , roteirista, atores, sinopse, idioma, pais, premiacoes, urlDaImagem, nota, votos);
     }
+
+
 }

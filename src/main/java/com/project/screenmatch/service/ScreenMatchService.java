@@ -9,7 +9,9 @@ import com.project.screenmatch.repositorys.FilmeRepository;
 import com.project.screenmatch.repositorys.SerieRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 @Service
@@ -19,6 +21,11 @@ public class ScreenMatchService {
     private final SerieRepository serieRepository;
 
     private final FilmeRepository filmeRepository;
+
+    private List<Serie> seriesBuscadas;
+    private List<Filme> filmesBuscados;
+
+    Scanner lerDados = new Scanner(System.in);
     public ScreenMatchService(ConsumirApiOmdb consumirApiOmdb, SerieRepository serieRepository, FilmeRepository filmeRepository) {
         this.consumirApiOmdb = consumirApiOmdb;
         this.serieRepository = serieRepository;
@@ -30,7 +37,6 @@ public class ScreenMatchService {
         boolean sair = false;
 
         while(!sair) {
-            Scanner lerOpcaoMenu = new Scanner(System.in);
 
             System.out.println("BEM VINDO AO SCREENMATCH!\n");
             System.out.println("Escolha uma opção do menu:");
@@ -39,34 +45,40 @@ public class ScreenMatchService {
             System.out.println(
                     """
                     1 - Buscar Titulo.
-                    2 - sair.       \s
+                    2 - Listar series buscadas.
+                    3 - Listar filmes buscados.
+                    4 - sair.       \s
                             """
 
             );
             try {
-                opcaousuario = lerOpcaoMenu.nextInt();
+                opcaousuario = lerDados.nextInt();
+                lerDados.nextLine();
 
                 switch (opcaousuario){
                     case 1:buscarTitulo();
                     break;
-                    case 2: sair = true;
+                    case 2: listarSeries();
+                    break;
+                    case 3: listarFilmes();
+                    break;
+                    case 4: sair = true;
                         System.out.println("Saindo...");
                         break;
                 }
             } catch(InputMismatchException exception ) {
-                lerOpcaoMenu.nextLine();
+                lerDados.nextLine();
                 System.out.println("Você digitou Uma entrada inválida!");
             }
         }
     }
 
     public void buscarTitulo(){
-        Scanner lerTituloDeBusca = new Scanner(System.in);
         String tituloPesquisado;
 
         System.out.println("Digite o titulo que deseja pesquisar:");
 
-        tituloPesquisado = lerTituloDeBusca.nextLine();
+        tituloPesquisado = lerDados.nextLine();
         String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo(tituloPesquisado));
         DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json , DadoOmdbTitulo.class);
 
@@ -89,5 +101,19 @@ public class ScreenMatchService {
 
     public void salvarFilme(Filme filme) {
         filmeRepository.save(filme);
+    }
+
+    public void listarFilmes() {
+        filmesBuscados = filmeRepository.findAll();
+        filmesBuscados.stream()
+                .sorted(Comparator.comparing(Filme::getTitulo))
+                .forEach(System.out::println);
+    }
+
+    public void listarSeries() {
+        seriesBuscadas = serieRepository.findAll();
+        seriesBuscadas.stream()
+                .sorted(Comparator.comparing(Serie::getTitulo))
+                .forEach(System.out::println);
     }
 }
