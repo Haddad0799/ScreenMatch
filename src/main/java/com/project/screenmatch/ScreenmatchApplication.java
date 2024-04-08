@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ScreenmatchApplication implements CommandLineRunner {
+
 	ScreenMatchService screenMatchService;
 
 	public ScreenmatchApplication(ScreenMatchService screenMatchService) {

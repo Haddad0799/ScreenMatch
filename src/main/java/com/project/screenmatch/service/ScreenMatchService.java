@@ -8,6 +8,7 @@ import com.project.screenmatch.model.Serie;
 import com.project.screenmatch.repositorys.FilmeRepository;
 import com.project.screenmatch.repositorys.SerieRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.InputMismatchException;
@@ -22,9 +23,6 @@ public class ScreenMatchService {
 
     private final FilmeRepository filmeRepository;
 
-    private List<Serie> seriesBuscadas;
-    private List<Filme> filmesBuscados;
-
     Scanner lerDados = new Scanner(System.in);
     public ScreenMatchService(ConsumirApiOmdb consumirApiOmdb, SerieRepository serieRepository, FilmeRepository filmeRepository) {
         this.consumirApiOmdb = consumirApiOmdb;
@@ -33,67 +31,89 @@ public class ScreenMatchService {
     }
 
     public void menuInterativo() {
-
         boolean sair = false;
 
-        while(!sair) {
-
+        while (!sair) {
             System.out.println("BEM VINDO AO SCREENMATCH!\n");
             System.out.println("Escolha uma opção do menu:");
-            int opcaousuario = 0;
 
             System.out.println(
                     """
-                    1 - Buscar Titulo.
-                    2 - Listar series buscadas.
+                    1 - Buscar Título.
+                    2 - Listar séries buscadas.
                     3 - Listar filmes buscados.
-                    4 - sair.       \s
-                            """
-
+                    4 - Sair.
+                    """
             );
+
+            int opcaoUsuario;
+
             try {
-                opcaousuario = lerDados.nextInt();
+                opcaoUsuario = lerDados.nextInt();
                 lerDados.nextLine();
 
-                switch (opcaousuario){
-                    case 1:buscarTitulo();
-                    break;
-                    case 2: listarSeries();
-                    break;
-                    case 3: listarFilmes();
-                    break;
-                    case 4: sair = true;
-                        System.out.println("Saindo...");
+                switch (opcaoUsuario) {
+                    case 1:
+                        buscarTitulo();
                         break;
+                    case 2:
+                        listarSeries();
+                        break;
+                    case 3:
+                        listarFilmes();
+                        break;
+                    case 4:
+                        System.out.println("Saindo...");
+                        sair = true;
+                        break;
+                    default:
+                        System.out.println("Opção inválida! Por favor, escolha uma opção válida.");
                 }
-            } catch(InputMismatchException exception ) {
+            } catch (InputMismatchException exception) {
                 lerDados.nextLine();
-                System.out.println("Você digitou Uma entrada inválida!");
+                System.out.println("Você digitou uma entrada inválida!");
             }
         }
     }
 
-    public void buscarTitulo(){
+    @Transactional
+    public void buscarTitulo() {
         String tituloPesquisado;
 
-        System.out.println("Digite o titulo que deseja pesquisar:");
+        System.out.println("Digite o título que deseja pesquisar:");
 
         tituloPesquisado = lerDados.nextLine();
-        String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo(tituloPesquisado));
-        DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json , DadoOmdbTitulo.class);
+        try {
+            String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo(tituloPesquisado));
+            DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json, DadoOmdbTitulo.class);
 
-        if(dadoOmdbTitulo.tipo().equalsIgnoreCase("series")) {
-            Serie serie = new Serie(dadoOmdbTitulo);
-            salvarSerie(serie);
-            System.out.println(serie);
-        }
+            if (dadoOmdbTitulo.tipo().equalsIgnoreCase("series")) {
+                Serie serie = new Serie(dadoOmdbTitulo);
+                if (serieRepository.existsByTitulo(serie.getTitulo())) {
+                    Serie serieExistente = serieRepository.findByTitulo(serie.getTitulo());
+                    System.out.println(serieExistente);
+                } else {
+                    salvarSerie(serie);
+                    System.out.println(serie);
+                }
+            }
 
-        if(dadoOmdbTitulo.tipo().equalsIgnoreCase("movie")) {
-            Filme filme = new Filme(dadoOmdbTitulo);
-            salvarFilme(filme);
-            System.out.println(filme);
+            if (dadoOmdbTitulo.tipo().equalsIgnoreCase("movie")) {
+                Filme filme = new Filme(dadoOmdbTitulo);
+                if (filmeRepository.existsByTitulo(filme.getTitulo())) {
+                    Filme filmeExistente = filmeRepository.findByTitulo(filme.getTitulo());
+                    System.out.println(filmeExistente);
+                } else {
+                    salvarFilme(filme);
+                    System.out.println(filme);
+                }
+
+            }
+        } catch (NullPointerException exception) {
+            System.out.println("Não foi possível encontrar o título pesquisado.");
         }
     }
+
 
     public void salvarSerie(Serie serie) {
         serieRepository.save(serie);
@@ -104,14 +124,14 @@ public class ScreenMatchService {
     }
 
     public void listarFilmes() {
-        filmesBuscados = filmeRepository.findAll();
+        List<Filme> filmesBuscados = filmeRepository.findAll();
         filmesBuscados.stream()
                 .sorted(Comparator.comparing(Filme::getTitulo))
                 .forEach(System.out::println);
     }
 
     public void listarSeries() {
-        seriesBuscadas = serieRepository.findAll();
+        List<Serie> seriesBuscadas = serieRepository.findAll();
         seriesBuscadas.stream()
                 .sorted(Comparator.comparing(Serie::getTitulo))
                 .forEach(System.out::println);
