@@ -1,6 +1,7 @@
 package com.project.screenmatch.model;
 
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
+import com.project.screenmatch.service.TradutorChatGptService;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -50,7 +51,7 @@ public class Serie {
         this.diretor = dadoOmdb.diretor();
         this.roteirista = dadoOmdb.roteirista();
         this.atores = dadoOmdb.atores();
-        this.sinopse = dadoOmdb.sinopse();
+        this.sinopse =dadoOmdb.sinopse();//TradutorChatGptService.obterTraducao(dadoOmdb.sinopse());
         this.idioma = dadoOmdb.idioma();
         this.pais = dadoOmdb.pais();
         this.premiacoes = dadoOmdb.premiacoes();

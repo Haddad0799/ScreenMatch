@@ -87,6 +87,7 @@ public class ScreenMatchService {
             String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo(tituloPesquisado));
             DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json, DadoOmdbTitulo.class);
 
+
             if (dadoOmdbTitulo.tipo().equalsIgnoreCase("series")) {
                 Serie serie = new Serie(dadoOmdbTitulo);
                 if (serieRepository.existsByTitulo(serie.getTitulo())) {
@@ -107,7 +108,6 @@ public class ScreenMatchService {
                     salvarFilme(filme);
                     System.out.println(filme);
                 }
-
             }
         } catch (NullPointerException exception) {
             System.out.println("Não foi possível encontrar o título pesquisado.");
