@@ -1,6 +1,6 @@
 package com.project.screenmatch.model;
 
-import com.project.screenmatch.dtos.DadoOmdbEpisodios;
+import com.project.screenmatch.dtos.DadoOmdbEpisodio;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -23,11 +23,11 @@ public class Episodio {
 
 
 
-    public Episodio(DadoOmdbEpisodios dadoOmdbEpisodios) {
-        this.titulo = dadoOmdbEpisodios.titulo();
-        this.episodio = dadoOmdbEpisodios.episodio();
-        this.dataLancamento = dadoOmdbEpisodios.dataLancamento();
-        this.nota = OptionalDouble.of(Double.parseDouble(String.valueOf(dadoOmdbEpisodios.nota())))
+    public Episodio(DadoOmdbEpisodio dadoOmdbEpisodio) {
+        this.titulo = dadoOmdbEpisodio.titulo();
+        this.episodio = dadoOmdbEpisodio.episodio();
+        this.dataLancamento = dadoOmdbEpisodio.dataLancamento();
+        this.nota = OptionalDouble.of(Double.parseDouble(String.valueOf(dadoOmdbEpisodio.nota())))
                 .orElse(0.0);
     }
 }

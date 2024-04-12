@@ -3,8 +3,10 @@ package com.project.screenmatch.service;
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.infraestruct.ConsumirApiOmdb;
 import com.project.screenmatch.model.Endereco;
+import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Filme;
 import com.project.screenmatch.model.Serie;
+import com.project.screenmatch.repositorys.EpisodioRepository;
 import com.project.screenmatch.repositorys.FilmeRepository;
 import com.project.screenmatch.repositorys.SerieRepository;
 import org.springframework.stereotype.Service;
@@ -20,14 +22,17 @@ public class ScreenMatchService {
 
     private final ConsumirApiOmdb consumirApiOmdb;
     private final SerieRepository serieRepository;
-
     private final FilmeRepository filmeRepository;
 
+    private final EpisodioRepository episodioRepository;
+
     Scanner lerDados = new Scanner(System.in);
-    public ScreenMatchService(ConsumirApiOmdb consumirApiOmdb, SerieRepository serieRepository, FilmeRepository filmeRepository) {
+    public ScreenMatchService(ConsumirApiOmdb consumirApiOmdb, SerieRepository serieRepository,
+                              FilmeRepository filmeRepository, EpisodioRepository episodioRepository) {
         this.consumirApiOmdb = consumirApiOmdb;
         this.serieRepository = serieRepository;
         this.filmeRepository = filmeRepository;
+        this.episodioRepository = episodioRepository;
     }
 
     public void menuInterativo() {
@@ -123,6 +128,10 @@ public class ScreenMatchService {
         filmeRepository.save(filme);
     }
 
+    public void salvarEpisodio(Episodio episodio){
+        episodioRepository.save(episodio);
+    }
+
     public void listarFilmes() {
         List<Filme> filmesBuscados = filmeRepository.findAll();
         filmesBuscados.stream()
@@ -135,5 +144,10 @@ public class ScreenMatchService {
         seriesBuscadas.stream()
                 .sorted(Comparator.comparing(Serie::getTitulo))
                 .forEach(System.out::println);
+    }
+
+    private void buscarEpisodios() {
+
+
     }
 }
