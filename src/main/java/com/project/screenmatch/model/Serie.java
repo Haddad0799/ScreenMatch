@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
 @Getter
@@ -34,6 +36,8 @@ public class Serie {
     private Double nota;
     @Setter
     private Long votos;
+    @OneToMany(mappedBy = "serie")
+    private final List<Episodio> episodios = new ArrayList<>();
 
 
     public Serie(DadoOmdbTitulo dadoOmdb) {
