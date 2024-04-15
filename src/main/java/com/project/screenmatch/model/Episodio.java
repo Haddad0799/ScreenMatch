@@ -1,9 +1,12 @@
 package com.project.screenmatch.model;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.project.screenmatch.dtos.DadoOmdbEpisodio;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
+import java.util.IllegalFormatException;
 import java.util.OptionalDouble;
 
 @Entity
@@ -16,7 +19,8 @@ public class Episodio {
     private final String titulo;
     private final Integer episodio;
     private final String dataLancamento;
-    private final double nota;
+    @Setter
+    private double nota;
 
     @ManyToOne
     private Serie serie;
@@ -27,7 +31,35 @@ public class Episodio {
         this.titulo = dadoOmdbEpisodio.titulo();
         this.episodio = dadoOmdbEpisodio.episodio();
         this.dataLancamento = dadoOmdbEpisodio.dataLancamento();
-        this.nota = OptionalDouble.of(Double.parseDouble(String.valueOf(dadoOmdbEpisodio.nota())))
-                .orElse(0.0);
+
+        if (isNumeric(String.valueOf(dadoOmdbEpisodio.nota()))) {
+            this.nota = Double.parseDouble(String.valueOf(dadoOmdbEpisodio.nota()));
+        } else {
+            this.nota = 0.0;
+        }
+    }
+
+    private boolean isNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    @Override
+    public String toString() {
+        return """
+                Titulo: %s
+                Episodio: %d
+                Data de lançamento: %s
+                Avaliação: %.1f
+                """.formatted(titulo,episodio,dataLancamento,nota);
+
+
     }
 }

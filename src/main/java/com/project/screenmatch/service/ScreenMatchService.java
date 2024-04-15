@@ -1,5 +1,6 @@
 package com.project.screenmatch.service;
 
+import com.project.screenmatch.dtos.DadoOmdbTemporada;
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.infraestruct.ConsumirApiOmdb;
 import com.project.screenmatch.model.Endereco;
@@ -9,13 +10,12 @@ import com.project.screenmatch.model.Serie;
 import com.project.screenmatch.repositorys.EpisodioRepository;
 import com.project.screenmatch.repositorys.FilmeRepository;
 import com.project.screenmatch.repositorys.SerieRepository;
+import lombok.Getter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Comparator;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ScreenMatchService {
@@ -25,6 +25,9 @@ public class ScreenMatchService {
     private final FilmeRepository filmeRepository;
 
     private final EpisodioRepository episodioRepository;
+
+    @Getter
+    private List<Serie> seriesBuscadas = new ArrayList<>();
 
     Scanner lerDados = new Scanner(System.in);
     public ScreenMatchService(ConsumirApiOmdb consumirApiOmdb, SerieRepository serieRepository,
@@ -47,7 +50,8 @@ public class ScreenMatchService {
                     1 - Buscar Título.
                     2 - Listar séries buscadas.
                     3 - Listar filmes buscados.
-                    4 - Sair.
+                    4 - Buscar Episódios.
+                    5 - Sair.
                     """
             );
 
@@ -67,7 +71,9 @@ public class ScreenMatchService {
                     case 3:
                         listarFilmes();
                         break;
-                    case 4:
+                    case 4:buscarEpisodios();
+                    break;
+                    case 5:
                         System.out.println("Saindo...");
                         sair = true;
                         break;
@@ -140,14 +146,46 @@ public class ScreenMatchService {
     }
 
     public void listarSeries() {
-        List<Serie> seriesBuscadas = serieRepository.findAll();
+        seriesBuscadas = serieRepository.findAll();
         seriesBuscadas.stream()
                 .sorted(Comparator.comparing(Serie::getTitulo))
                 .forEach(System.out::println);
     }
 
     private void buscarEpisodios() {
+        seriesBuscadas = serieRepository.findAll();
+        System.out.println("Digite a série que deseja saber os episódios:");
+        String seriePesquisada = lerDados.nextLine();
 
+        Optional<Serie> serie = getSeriesBuscadas().stream()
+                .filter(s -> s.getTitulo().toLowerCase().contains(seriePesquisada.toLowerCase()))
+                .findFirst();
+
+        System.out.println(seriePesquisada);
+        System.out.println(seriesBuscadas);
+        System.out.println(serie);
+
+        if (serie.isPresent()) {
+            var serieEncontrada = serie.get();
+            System.out.println(serieEncontrada);
+            List<Episodio> episodios = new ArrayList<>();
+
+            for (int i = 1; i <= serieEncontrada.getTemporadas(); i++) {
+                String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTemporada(serieEncontrada.getTitulo(), i));
+                DadoOmdbTemporada dadoOmdbTemporada = consumirApiOmdb.converteDados(json, DadoOmdbTemporada.class);
+
+                episodios.addAll(dadoOmdbTemporada.episodios().stream()
+                        .map(Episodio::new)
+                        .toList());
+            }
+
+            serieEncontrada.setEpisodios(episodios);
+
+            episodios.forEach(System.out::println);
+        } else {
+            System.out.println("Série não encontrada.");
+        }
 
     }
+
 }

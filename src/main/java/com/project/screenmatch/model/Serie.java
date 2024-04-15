@@ -37,8 +37,9 @@ public class Serie {
     private Double nota;
     @Setter
     private Long votos;
+    @Setter
     @OneToMany(mappedBy = "serie")
-    private final List<Episodio> episodios = new ArrayList<>();
+    private List<Episodio> episodios = new ArrayList<>();
 
 
     public Serie(DadoOmdbTitulo dadoOmdb) {

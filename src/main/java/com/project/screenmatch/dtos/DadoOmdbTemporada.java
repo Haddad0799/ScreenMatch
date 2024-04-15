@@ -11,6 +11,6 @@ public record DadoOmdbTemporada(
         @JsonAlias("Title") String titulo,
         @JsonAlias("Season") Integer temporada,
         @JsonAlias("totalSeasons") Integer totalTemporadas,
-        @JsonAlias("Episodes")List<Episodio> episodios
+        @JsonAlias("Episodes")List<DadoOmdbEpisodio> episodios
         ) {
 }
