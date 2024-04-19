@@ -7,7 +7,6 @@ import com.project.screenmatch.model.Endereco;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Filme;
 import com.project.screenmatch.model.Serie;
-import com.project.screenmatch.repositorys.EpisodioRepository;
 import com.project.screenmatch.repositorys.FilmeRepository;
 import com.project.screenmatch.repositorys.SerieRepository;
 import lombok.Getter;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class ScreenMatchService {
@@ -24,18 +22,17 @@ public class ScreenMatchService {
     private final SerieRepository serieRepository;
     private final FilmeRepository filmeRepository;
 
-    private final EpisodioRepository episodioRepository;
+
 
     @Getter
     private List<Serie> seriesBuscadas = new ArrayList<>();
 
     Scanner lerDados = new Scanner(System.in);
     public ScreenMatchService(ConsumirApiOmdb consumirApiOmdb, SerieRepository serieRepository,
-                              FilmeRepository filmeRepository, EpisodioRepository episodioRepository) {
+                              FilmeRepository filmeRepository) {
         this.consumirApiOmdb = consumirApiOmdb;
         this.serieRepository = serieRepository;
         this.filmeRepository = filmeRepository;
-        this.episodioRepository = episodioRepository;
     }
 
     public void menuInterativo() {
@@ -78,7 +75,7 @@ public class ScreenMatchService {
                         sair = true;
                         break;
                     default:
-                        System.out.println("Opção inválida! Por favor, escolha uma opção válida.");
+                        System.out.println("Opção inválida! Por favor, escolha uma opção presente no menu.");
                 }
             } catch (InputMismatchException exception) {
                 lerDados.nextLine();
@@ -134,9 +131,6 @@ public class ScreenMatchService {
         filmeRepository.save(filme);
     }
 
-    public void salvarEpisodio(Episodio episodio){
-        episodioRepository.save(episodio);
-    }
 
     public void listarFilmes() {
         List<Filme> filmesBuscados = filmeRepository.findAll();
@@ -152,6 +146,7 @@ public class ScreenMatchService {
                 .forEach(System.out::println);
     }
 
+    @Transactional
     private void buscarEpisodios() {
         seriesBuscadas = serieRepository.findAll();
         System.out.println("Digite a série que deseja saber os episódios:");
@@ -161,29 +156,52 @@ public class ScreenMatchService {
                 .filter(s -> s.getTitulo().toLowerCase().contains(seriePesquisada.toLowerCase()))
                 .findFirst();
 
-        System.out.println(seriePesquisada);
-        System.out.println(seriesBuscadas);
-        System.out.println(serie);
 
         if (serie.isPresent()) {
-            var serieEncontrada = serie.get();
-            System.out.println(serieEncontrada);
+            Serie serieEncontrada = serie.get();
+
             List<Episodio> episodios = new ArrayList<>();
 
-            for (int i = 1; i <= serieEncontrada.getTemporadas(); i++) {
-                String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTemporada(serieEncontrada.getTitulo(), i));
-                DadoOmdbTemporada dadoOmdbTemporada = consumirApiOmdb.converteDados(json, DadoOmdbTemporada.class);
+            if (serieEncontrada.getEpisodios().isEmpty()){
+                for (int i = 1; i <= serieEncontrada.getTemporadas(); i++) {
+                    String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTemporada(serieEncontrada.getTitulo(), i));
+                    DadoOmdbTemporada dadoOmdbTemporada = consumirApiOmdb.converteDados(json, DadoOmdbTemporada.class);
 
-                episodios.addAll(dadoOmdbTemporada.episodios().stream()
-                        .map(Episodio::new)
-                        .toList());
+                    episodios.addAll(dadoOmdbTemporada.episodios().stream()
+                            .map(Episodio::new)
+                            .toList());
+
+                }
+                serieEncontrada.setEpisodios(episodios);
+                episodios.forEach(System.out::println);
+                serieRepository.save(serieEncontrada);
+            } else {
+                serieEncontrada.getEpisodios().forEach(System.out::println);
+            }
+        } else {
+
+            try{
+                String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo(seriePesquisada));
+                DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json,DadoOmdbTitulo.class);
+                Serie serieOmdb = new Serie(dadoOmdbTitulo);
+                serieRepository.save(serieOmdb);
+
+                for (int i = 1; i <= serieOmdb.getTemporadas(); i++) {
+                    json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTemporada(serieOmdb.getTitulo(), i));
+                    DadoOmdbTemporada dadoOmdbTemporada = consumirApiOmdb.converteDados(json, DadoOmdbTemporada.class);
+
+                    List<Episodio> episodios = new ArrayList<>(dadoOmdbTemporada.episodios().stream()
+                            .map(Episodio::new)
+                            .toList());
+
+                    serieOmdb.setEpisodios(episodios);
+                    episodios.forEach(System.out::println);
+                    serieRepository.save(serieOmdb);
+                }
+            } catch (NullPointerException exception) {
+                System.out.println("Não foi possível encontrar a série buscada!");
             }
 
-            serieEncontrada.setEpisodios(episodios);
-
-            episodios.forEach(System.out::println);
-        } else {
-            System.out.println("Série não encontrada.");
         }
 
     }

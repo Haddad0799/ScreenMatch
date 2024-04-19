@@ -16,16 +16,17 @@ public class Episodio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long IdScreenmatch;
-    private final String titulo;
-    private final Integer episodio;
-    private final String dataLancamento;
+    private String titulo;
+    private Integer episodio;
+    private String dataLancamento;
     @Setter
     private double nota;
-
+    @Setter
     @ManyToOne
     private Serie serie;
 
-
+    public Episodio() {
+    }
 
     public Episodio(DadoOmdbEpisodio dadoOmdbEpisodio) {
         this.titulo = dadoOmdbEpisodio.titulo();

@@ -1,7 +1,6 @@
 package com.project.screenmatch.model;
 
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
-import com.project.screenmatch.service.TradutorChatGptService;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -37,8 +36,8 @@ public class Serie {
     private Double nota;
     @Setter
     private Long votos;
-    @Setter
-    @OneToMany(mappedBy = "serie")
+
+    @OneToMany(mappedBy = "serie",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<Episodio> episodios = new ArrayList<>();
 
 
@@ -59,6 +58,11 @@ public class Serie {
         this.urlDaImagem = dadoOmdb.urlDaImagem();
         this.nota = OptionalDouble.of(Double.parseDouble(dadoOmdb.nota())).orElse(0.0);
         this.votos = Long.parseLong(dadoOmdb.votos().replace(",", ""));
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e->e.setSerie(this));
+        this.episodios = episodios;
     }
 
     public Serie() {}
