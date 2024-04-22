@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SerieRepository extends JpaRepository<Serie, Long> {
 
@@ -13,4 +15,7 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
    boolean existsByTitulo(@Param("titulo") String titulo);
 
     Serie findByTitulo(String titulo);
+
+    List<Serie> findTop5ByOrderByNotaDesc();
+
 }

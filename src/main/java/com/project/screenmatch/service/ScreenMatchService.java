@@ -48,7 +48,9 @@ public class ScreenMatchService {
                     2 - Listar séries buscadas.
                     3 - Listar filmes buscados.
                     4 - Buscar Episódios.
-                    5 - Sair.
+                    5 - Top 5 Séries.
+                    6 - Top 5 Filmes.
+                    7 - Sair.
                     """
             );
 
@@ -68,9 +70,14 @@ public class ScreenMatchService {
                     case 3:
                         listarFilmes();
                         break;
-                    case 4:buscarEpisodios();
-                    break;
-                    case 5:
+                    case 4:
+                        buscarEpisodios();
+                        break;
+                    case 5: top5Series();
+                        break;
+                    case 6: top5Filmes();
+                        break;
+                    case 7:
                         System.out.println("Saindo...");
                         sair = true;
                         break;
@@ -82,6 +89,18 @@ public class ScreenMatchService {
                 System.out.println("Você digitou uma entrada inválida!");
             }
         }
+    }
+
+    private void top5Filmes() {
+        List<Filme> topFilmes = filmeRepository.findTop5ByOrderByNotaDesc();
+        topFilmes.forEach(f-> System.out.println("Titulo:" + f.getTitulo() +
+                "\nAvaliação: " + f.getNota()));
+    }
+
+    private void top5Series() {
+        List<Serie> topSeries = serieRepository.findTop5ByOrderByNotaDesc();
+        topSeries.forEach(s-> System.out.println("Titulo:" + s.getTitulo()
+                + "\nAvaliação:" + s.getNota()));
     }
 
     @Transactional
@@ -184,7 +203,7 @@ public class ScreenMatchService {
                 String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo(seriePesquisada));
                 DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json,DadoOmdbTitulo.class);
                 Serie serieOmdb = new Serie(dadoOmdbTitulo);
-                serieRepository.save(serieOmdb);
+                
 
                 for (int i = 1; i <= serieOmdb.getTemporadas(); i++) {
                     json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTemporada(serieOmdb.getTitulo(), i));
