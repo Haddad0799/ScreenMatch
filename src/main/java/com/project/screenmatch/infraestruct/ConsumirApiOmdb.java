@@ -2,7 +2,7 @@ package com.project.screenmatch.infraestruct;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.screenmatch.service.ConsumirApi;
+import com.project.screenmatch.useCase.ConsumirApi;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package com.project.screenmatch.service;
+package com.project.screenmatch.useCase;
 
 public interface ConsumirApi {
     String buscarDados(String endereco);
