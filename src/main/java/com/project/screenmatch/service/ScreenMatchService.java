@@ -50,7 +50,8 @@ public class ScreenMatchService {
                     4 - Buscar Episódios.
                     5 - Top 5 Séries.
                     6 - Top 5 Filmes.
-                    7 - Sair.
+                    7 - Buscar Episódio.
+                    8 - Sair.
                     """
             );
 
@@ -77,7 +78,9 @@ public class ScreenMatchService {
                         break;
                     case 6: top5Filmes();
                         break;
-                    case 7:
+                    case 7: buscarEpisodioPeloNome();
+                        break;
+                    case 8:
                         System.out.println("Saindo...");
                         sair = true;
                         break;
@@ -88,6 +91,18 @@ public class ScreenMatchService {
                 lerDados.nextLine();
                 System.out.println("Você digitou uma entrada inválida!");
             }
+        }
+    }
+
+    private void buscarEpisodioPeloNome() {
+        try {
+            System.out.println("Digite o episódio que deseja buscar:\n");
+            String nomeEpisodio = lerDados.nextLine();
+            List<Episodio> episodiosEncontrados = serieRepository.findEpisodioPeloNome(nomeEpisodio);
+            episodiosEncontrados.forEach(e -> System.out.println("Série:" + e.getSerie().getTitulo()
+                     +"\n" + e));
+        } catch (InputMismatchException exception) {
+            System.out.println("Você digitou uma entrada inválida!");
         }
     }
 

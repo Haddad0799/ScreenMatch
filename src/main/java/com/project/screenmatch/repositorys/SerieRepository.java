@@ -1,5 +1,6 @@
 package com.project.screenmatch.repositorys;
 
+import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,6 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
     Serie findByTitulo(String titulo);
 
     List<Serie> findTop5ByOrderByNotaDesc();
-
+    @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:nomeEpisodio%")
+    List<Episodio> findEpisodioPeloNome(String nomeEpisodio);
 }
