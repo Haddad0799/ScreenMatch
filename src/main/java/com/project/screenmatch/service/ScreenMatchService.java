@@ -50,7 +50,7 @@ public class ScreenMatchService {
                     4 - Buscar Episódios.
                     5 - Top 5 Séries.
                     6 - Top 5 Filmes.
-                    7 - Buscar Episódio.
+                    7 - Buscar Episódio específico.
                     8 - Sair.
                     """
             );
@@ -209,8 +209,10 @@ public class ScreenMatchService {
                 serieEncontrada.setEpisodios(episodios);
                 episodios.forEach(System.out::println);
                 serieRepository.save(serieEncontrada);
+                top5Episodios(serieEncontrada);
             } else {
                 serieEncontrada.getEpisodios().forEach(System.out::println);
+                top5Episodios(serieEncontrada);
             }
         } else {
 
@@ -232,12 +234,20 @@ public class ScreenMatchService {
                     episodios.forEach(System.out::println);
                     serieRepository.save(serieOmdb);
                 }
+                top5Episodios(serieOmdb);
+
             } catch (NullPointerException exception) {
                 System.out.println("Não foi possível encontrar a série buscada!");
             }
 
         }
 
+    }
+
+    public void top5Episodios(Serie serie) {
+        System.out.println("########## TOP 5 EPISODIOS da série " + serie.getTitulo() + " ##########\n");
+        List<Episodio> topEpisodios = serieRepository.top5Episodios(serie);
+        topEpisodios.forEach(System.out::println);
     }
 
 }
