@@ -1,6 +1,5 @@
 package com.project.screenmatch.model;
 
-import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

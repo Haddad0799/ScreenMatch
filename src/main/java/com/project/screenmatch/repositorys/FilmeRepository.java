@@ -17,4 +17,9 @@ public interface FilmeRepository extends JpaRepository<Filme, Long> {
     Filme findByTitulo(String titulo);
 
     List<Filme> findTop5ByOrderByNotaDesc();
+
+    @Query("SELECT f FROM Filme f WHERE f.dataDeLancamento LIKE %:ano%")
+    List<Filme> filmesPorAno(@Param("ano") String ano);
+
+
 }

@@ -1,13 +1,8 @@
 package com.project.screenmatch.model;
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException;
-import com.project.screenmatch.dtos.DadoOmdbEpisodio;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.IllegalFormatException;
-import java.util.OptionalDouble;
 
 @Entity
 @Table( name = "episodios")

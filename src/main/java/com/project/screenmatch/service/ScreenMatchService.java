@@ -1,7 +1,7 @@
 package com.project.screenmatch.service;
 
-import com.project.screenmatch.dtos.DadoOmdbTemporada;
-import com.project.screenmatch.dtos.DadoOmdbTitulo;
+import com.project.screenmatch.model.DadoOmdbTemporada;
+import com.project.screenmatch.model.DadoOmdbTitulo;
 import com.project.screenmatch.infraestruct.ConsumirApiOmdb;
 import com.project.screenmatch.model.Endereco;
 import com.project.screenmatch.model.Episodio;

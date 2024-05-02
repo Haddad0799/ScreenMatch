@@ -13,14 +13,24 @@ import java.util.List;
 public interface SerieRepository extends JpaRepository<Serie, Long> {
 
     @Query("SELECT CASE WHEN COUNT(s) > 0 THEN true ELSE false END FROM Serie s WHERE s.titulo = :titulo")
-   boolean existsByTitulo(@Param("titulo") String titulo);
+    boolean existsByTitulo(@Param("titulo") String titulo);
 
     Serie findByTitulo(String titulo);
 
     List<Serie> findTop5ByOrderByNotaDesc();
+
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE e.titulo ILIKE %:nomeEpisodio%")
     List<Episodio> findEpisodioPeloNome(String nomeEpisodio);
 
     @Query("SELECT e FROM Serie s JOIN s.episodios e WHERE s = :serie ORDER BY e.nota DESC LIMIT 5")
     List<Episodio> top5Episodios(Serie serie);
+
+    @Query("SELECT s FROM Serie s " +
+            "JOIN s.episodios e " +
+            "GROUP BY s " +
+            "ORDER BY MAX(e.dataLancamento) DESC LIMIT 5")
+    List<Serie> seriesMaisRecentes();
+
+
 }
+

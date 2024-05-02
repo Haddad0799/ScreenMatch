@@ -1,8 +1,7 @@
-package com.project.screenmatch.dtos;
+package com.project.screenmatch.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.project.screenmatch.model.Episodio;
 
 import java.util.List;
 
