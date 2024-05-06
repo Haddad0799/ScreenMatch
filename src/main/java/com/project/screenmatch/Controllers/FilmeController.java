@@ -4,6 +4,7 @@ import com.project.screenmatch.dtos.FilmeDto;
 import com.project.screenmatch.service.FilmeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -27,7 +28,12 @@ public class FilmeController {
     @GetMapping("/filmes/lancamentos")
     public List<FilmeDto> getFilmesLancamentos(){return filmeService.filmesLancamentos();}
 
-    @GetMapping("/filmes/buscarFilme")
-    public FilmeDto buscarFilme(){return filmeService.buscarFilme("maze runner");}
+    @GetMapping("/filmes/nome/{nomeFilme}")
+    public FilmeDto buscarFilme(@PathVariable String nomeFilme){return filmeService.buscarFilme(nomeFilme);}
+
+    @GetMapping("/filmes/{id}")
+    public FilmeDto buscarFilmePorId(@PathVariable Long id){
+        return filmeService.buscarPorId(id);
+    }
 
 }

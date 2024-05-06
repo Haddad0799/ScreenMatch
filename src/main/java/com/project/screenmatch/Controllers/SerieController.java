@@ -4,6 +4,7 @@ import com.project.screenmatch.dtos.SerieDto;
 import com.project.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -26,4 +27,15 @@ public class SerieController {
 
     @GetMapping("/series/lancamentos")
     public List<SerieDto> getSeriesLancamentos(){return serieService.seriesLancamentos();}
+
+    @GetMapping ("/series/nome/{nomeSerie}")
+    public SerieDto getserieBuscada(@PathVariable String nomeSerie){
+        return  serieService.buscarSerie(nomeSerie);
+    }
+
+    @GetMapping("/series/{id}")
+    public SerieDto getSerieById(@PathVariable Long id) {
+        return serieService.buscarSeriePorId(id);
+    }
+
 }

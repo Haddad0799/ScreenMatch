@@ -3,6 +3,8 @@ package com.project.screenmatch.dtos;
 import com.project.screenmatch.model.Categoria;
 
 public record SerieDto(
+
+        long id,
         String titulo,
         Integer temporadas,
         String ano,

@@ -3,7 +3,7 @@ package com.project.screenmatch.dtos;
 import com.project.screenmatch.model.Categoria;
 
 public record FilmeDto(
-        long idScreenMatch,
+        long id,
         String titulo,
         String ano,
         String dataDeLancamento,

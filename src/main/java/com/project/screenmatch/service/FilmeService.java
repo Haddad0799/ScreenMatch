@@ -59,6 +59,16 @@ public class FilmeService {
         }
     }
 
+    public FilmeDto buscarPorId(Long id) {
+        Optional<Filme> filme = filmeRepository.findById(id);
+
+        if (filme.isPresent()){
+         Filme filmeEncontrado = filme.get();
+         return converterParaFilmeDto(filmeEncontrado);
+        }
+        return null;
+    }
+
 
     private FilmeDto converterParaFilmeDto(Filme filme) {
         return new FilmeDto(
@@ -80,5 +90,6 @@ public class FilmeService {
                 filme.getVotos()
         );
     }
+
 }
 
