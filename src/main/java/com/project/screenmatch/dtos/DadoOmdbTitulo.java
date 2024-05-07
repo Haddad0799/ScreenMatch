@@ -1,4 +1,4 @@
-package com.project.screenmatch.model;
+package com.project.screenmatch.dtos;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

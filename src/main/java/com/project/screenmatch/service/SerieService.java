@@ -1,5 +1,7 @@
 package com.project.screenmatch.service;
 
+import com.project.screenmatch.dtos.DadoOmdbTemporada;
+import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.dtos.EpisodioDto;
 import com.project.screenmatch.dtos.SerieDto;
 import com.project.screenmatch.infraestruct.ConsumirApiOmdb;
@@ -52,7 +54,19 @@ public class SerieService {
             String json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTitulo(nomeSerie));
             DadoOmdbTitulo dadoOmdbTitulo = consumirApiOmdb.converteDados(json, DadoOmdbTitulo.class);
             Serie serieOmdb = new Serie(dadoOmdbTitulo);
-            serieRepository.save(serieOmdb);
+
+            for (int i = 1; i <= serieOmdb.getTemporadas(); i++){
+                json = consumirApiOmdb.buscarDados(Endereco.montaEnderecoTemporada(serieOmdb.getTitulo(), i));
+                DadoOmdbTemporada dadoOmdbTemporada = consumirApiOmdb.converteDados(json, DadoOmdbTemporada.class);
+
+                List<Episodio> episodios = new ArrayList<>(dadoOmdbTemporada.episodios().stream()
+                        .map(Episodio::new)
+                        .toList());
+
+                serieOmdb.setEpisodios(episodios);
+                episodios.forEach(System.out::println);
+                serieRepository.save(serieOmdb);
+            }
             return converterParaSerieDto(serieOmdb);
         }
     }
@@ -74,13 +88,12 @@ public class SerieService {
             List<Episodio> episodios = serieEncontrada.getEpisodios();
             List<EpisodioDto> episodioDtos = new ArrayList<>();
 
-            int temporadaAtual = 1; // Começamos na temporada 1
+            int temporadaAtual = 1;
 
             for (Episodio episodio : episodios) {
                 EpisodioDto episodioDto = new EpisodioDto(temporadaAtual, episodio.getTitulo(), episodio.getEpisodio(), episodio.getDataLancamento(), episodio.getNota());
                 episodioDtos.add(episodioDto);
 
-                // Se o próximo episódio não for da mesma temporada, incrementamos o número da temporada
                 if (episodio != episodios.get(episodios.size() - 1) && episodio.getEpisodio() > episodios.get(episodios.indexOf(episodio) + 1).getEpisodio()) {
                     temporadaAtual++;
                 }
