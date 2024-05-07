@@ -1,5 +1,6 @@
 package com.project.screenmatch.Controllers;
 
+import com.project.screenmatch.dtos.EpisodioDto;
 import com.project.screenmatch.dtos.SerieDto;
 import com.project.screenmatch.service.SerieService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,21 @@ public class SerieController {
     @GetMapping("/series/{id}")
     public SerieDto getSerieById(@PathVariable Long id) {
         return serieService.buscarSeriePorId(id);
+    }
+
+    @GetMapping("/series/{id}/temporadas/todas")
+    public List<EpisodioDto> TemporadasDaSerie(@PathVariable Long id){
+        return serieService.buscarTodosEpisodiosDaSerie(id);
+    }
+
+    @GetMapping("/series/{id}/temporadas/{temporada}")
+    public List<EpisodioDto> episodiosPorTemporada(@PathVariable Long id, @PathVariable Integer temporada){
+        return serieService.buscarEpisodiosPorTemporada(id,temporada);
+    }
+
+    @GetMapping("series/categoria/{categoria}")
+    public List<SerieDto> seriesPorCategoria(@PathVariable String categoria){
+        return serieService.buscarSeriePorCategoria(categoria);
     }
 
 }

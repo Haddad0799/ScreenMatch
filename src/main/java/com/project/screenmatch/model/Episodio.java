@@ -33,6 +33,7 @@ public class Episodio {
         } else {
             this.nota = 0.0;
         }
+
     }
 
     private boolean isNumeric(String str) {

@@ -1,5 +1,6 @@
 package com.project.screenmatch.repositorys;
 
+import com.project.screenmatch.model.Categoria;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,6 +31,8 @@ public interface SerieRepository extends JpaRepository<Serie, Long> {
             "GROUP BY s " +
             "ORDER BY MAX(e.dataLancamento) DESC LIMIT 5")
     List<Serie> seriesMaisRecentes();
+    @Query("SELECT s FROM Serie s WHERE s.genero = :categoria")
+    List<Serie> findByCategoria(Categoria categoria);
 
 
 }
