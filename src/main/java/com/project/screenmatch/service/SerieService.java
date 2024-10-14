@@ -5,9 +5,11 @@ import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.dtos.EpisodioDto;
 import com.project.screenmatch.dtos.SerieDto;
 import com.project.screenmatch.infraestruct.ConsumirApiOmdb;
-import com.project.screenmatch.model.*;
+import com.project.screenmatch.model.Categoria;
+import com.project.screenmatch.model.Endereco;
+import com.project.screenmatch.model.Episodio;
+import com.project.screenmatch.model.Serie;
 import com.project.screenmatch.repositorys.SerieRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,11 +19,16 @@ import java.util.stream.Collectors;
 
 @Service
 public class SerieService {
-    @Autowired
+    final
     SerieRepository serieRepository;
 
-    @Autowired
+    final
     ConsumirApiOmdb consumirApiOmdb;
+
+    public SerieService(SerieRepository serieRepository, ConsumirApiOmdb consumirApiOmdb) {
+        this.serieRepository = serieRepository;
+        this.consumirApiOmdb = consumirApiOmdb;
+    }
 
     public List<SerieDto> listarSeries() {
         return serieRepository.findAll().stream()

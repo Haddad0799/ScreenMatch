@@ -1,12 +1,11 @@
 package com.project.screenmatch.service;
 
+import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.dtos.FilmeDto;
 import com.project.screenmatch.infraestruct.ConsumirApiOmdb;
-import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.model.Endereco;
 import com.project.screenmatch.model.Filme;
 import com.project.screenmatch.repositorys.FilmeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,11 +15,15 @@ import java.util.stream.Collectors;
 @Service
 public class FilmeService {
 
-    @Autowired
-    private FilmeRepository filmeRepository;
+    private final FilmeRepository filmeRepository;
 
-    @Autowired
+    final
     ConsumirApiOmdb consumirApiOmdb;
+
+    public FilmeService(FilmeRepository filmeRepository, ConsumirApiOmdb consumirApiOmdb) {
+        this.filmeRepository = filmeRepository;
+        this.consumirApiOmdb = consumirApiOmdb;
+    }
 
     public List<FilmeDto> listarFilmes() {
         return filmeRepository.findAll().stream()
