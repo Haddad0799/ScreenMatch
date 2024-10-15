@@ -1,6 +1,7 @@
 package com.project.screenmatch.dtos;
 
 import com.project.screenmatch.model.Categoria;
+import com.project.screenmatch.model.Filme;
 
 public record FilmeDto(
         long id,
@@ -20,4 +21,22 @@ public record FilmeDto(
         Double nota,
         Long votos
 ) {
+    public FilmeDto(Filme filme) {
+        this(filme.getId(),
+                filme.getTitulo(),
+                filme.getAno(),
+                filme.getDataDeLancamento(),
+                filme.getTempoDeDuracao(),
+                filme.getGenero(),
+                filme.getDiretor(),
+                filme.getRoteirista(),
+                filme.getAtores(),
+                filme.getSinopse(),
+                filme.getIdioma(),
+                filme.getPais(),
+                filme.getPremiacoes(),
+                filme.getUrlDaImagem(),
+                filme.getNota(),
+                filme.getVotos());
+    }
 }

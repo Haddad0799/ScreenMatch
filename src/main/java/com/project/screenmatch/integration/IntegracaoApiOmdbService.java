@@ -1,8 +1,7 @@
-package com.project.screenmatch.infraestruct;
+package com.project.screenmatch.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.screenmatch.useCase.ConsumirApi;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -12,14 +11,17 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Service
-public class ConsumirApiOmdb implements ConsumirApi {
+public class IntegracaoApiOmdbService implements IntegracaoApiExterna{
 
     private final ObjectMapper mapper = new ObjectMapper();
+
+
     @Override
-    public String buscarDados(String endereco) {
+    public <T> T buscarDados(Class<T> tipoDeRetorno, String endpoint) {
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(endereco))
+                .uri(URI.create(endpoint))
                 .build();
         HttpResponse<String> response;
         try {
@@ -28,16 +30,11 @@ public class ConsumirApiOmdb implements ConsumirApi {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-
-        return response.body();
-    }
-
-    @Override
-    public <T> T converteDados(String json, Class<T> classe) {
-        try {
-            return mapper.readValue(json, classe);
-        } catch (JsonProcessingException e) {
+        try{
+            return mapper.readValue(response.body(),tipoDeRetorno);
+        }catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
+
     }
 }

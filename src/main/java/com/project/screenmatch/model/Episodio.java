@@ -11,9 +11,9 @@ import lombok.Setter;
 public class Episodio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long IdScreenmatch;
+    private long Id;
     private String titulo;
-    private Integer episodio;
+    private Integer numeroEpisodio;
     private String dataLancamento;
     @Setter
     private double nota;
@@ -26,7 +26,7 @@ public class Episodio {
 
     public Episodio(DadoOmdbEpisodio dadoOmdbEpisodio) {
         this.titulo = dadoOmdbEpisodio.titulo();
-        this.episodio = dadoOmdbEpisodio.episodio();
+        this.numeroEpisodio = dadoOmdbEpisodio.episodio();
         this.dataLancamento = dadoOmdbEpisodio.dataLancamento();
 
         if (isNumeric(String.valueOf(dadoOmdbEpisodio.nota()))) {
@@ -49,15 +49,4 @@ public class Episodio {
         }
     }
 
-    @Override
-    public String toString() {
-        return """
-                Titulo: %s
-                Episodio: %d
-                Data de lançamento: %s
-                Avaliação: %.1f
-                """.formatted(titulo,episodio,dataLancamento,nota);
-
-
-    }
 }
