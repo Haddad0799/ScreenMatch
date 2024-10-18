@@ -11,7 +11,7 @@ public record EpisodioDto(
 ) {
 
     public EpisodioDto(Episodio episodio) {
-        this(episodio.getSerie().getTemporadas(),
+        this(episodio.getTemporada(),
                 episodio.getTitulo(),
                 episodio.getNumeroEpisodio(),
                 episodio.getDataLancamento(),

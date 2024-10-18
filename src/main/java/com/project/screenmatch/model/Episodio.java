@@ -12,6 +12,7 @@ public class Episodio {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
+    private int temporada;
     private String titulo;
     private Integer numeroEpisodio;
     private String dataLancamento;
@@ -25,7 +26,8 @@ public class Episodio {
     public Episodio() {
     }
 
-    public Episodio(DadoOmdbEpisodio dadoOmdbEpisodio) {
+    public Episodio(DadoOmdbEpisodio dadoOmdbEpisodio, int temporada) {
+        this.temporada = temporada;
         this.titulo = dadoOmdbEpisodio.titulo();
         this.numeroEpisodio = dadoOmdbEpisodio.episodio();
         this.dataLancamento = dadoOmdbEpisodio.dataLancamento();

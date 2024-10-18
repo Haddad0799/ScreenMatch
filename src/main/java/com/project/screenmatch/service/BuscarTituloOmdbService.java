@@ -8,6 +8,7 @@ import com.project.screenmatch.model.Serie;
 import com.project.screenmatch.util.UrlConstrutor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,18 +41,19 @@ public class BuscarTituloOmdbService {
 
     public List<Episodio> buscarEpisodiosOmb(Serie serie) {
 
-        List<Episodio> episodios = List.of();
+        List<Episodio> episodios = new ArrayList<>();
 
         for (int i = 1; i <= serie.getTemporadas(); i++) {
+            int temporada = i;
             DadoOmdbTemporada dadoOmdbTemporada = integracaoApiOmdbService
                     .buscarDados(DadoOmdbTemporada.class, urlConstrutor.construirUrl(serie.getTitulo(), i));
 
-            episodios = dadoOmdbTemporada.episodios().stream()
-                    .map(Episodio::new)
+          List<Episodio> episodiosTemporada = dadoOmdbTemporada.episodios().stream()
+                    .map(e -> new Episodio(e,temporada))
                     .toList();
+          episodios.addAll(episodiosTemporada);
             serie.setEpisodios(episodios);
         }
-        serie.setEpisodios(episodios);
         return episodios;
     }
 }

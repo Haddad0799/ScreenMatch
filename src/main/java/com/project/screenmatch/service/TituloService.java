@@ -3,6 +3,7 @@ package com.project.screenmatch.service;
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.dtos.FilmeDto;
 import com.project.screenmatch.dtos.SerieDto;
+import com.project.screenmatch.exceptions.TituloNotFoundException;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Filme;
 import com.project.screenmatch.model.Serie;
@@ -31,13 +32,14 @@ public class TituloService {
 
         if (filmeDbOpt.isEmpty()) {
             DadoOmdbTitulo dadoOmdbTitulo = buscarTituloOmdbService.buscarTituloOmdb(tituloPesquisado);
-            Filme filmeOmdb = new Filme(dadoOmdbTitulo);
-            filmeRepository.save(filmeOmdb);
-            return new FilmeDto(filmeOmdb);
+            if(dadoOmdbTitulo.tipo().equalsIgnoreCase("movie")) {
+                Filme filmeOmdb = new Filme(dadoOmdbTitulo);
+                filmeRepository.save(filmeOmdb);
+                return new FilmeDto(filmeOmdb);
+            }
         }
 
-        Filme filmeDb = filmeDbOpt.get();
-        return new FilmeDto(filmeDb);
+        return filmeDbOpt.map(FilmeDto::new).orElseThrow(TituloNotFoundException::new);
     }
 
     public SerieDto buscarSerie(String tituloPesquisado) {
@@ -45,15 +47,16 @@ public class TituloService {
 
         if (serieDbOpt.isEmpty()) {
             DadoOmdbTitulo dadoOmdbTitulo = buscarTituloOmdbService.buscarTituloOmdb(tituloPesquisado);
-            Serie serieOmdb = new Serie(dadoOmdbTitulo);
-            List<Episodio> episodiosSerieOmdb = buscarTituloOmdbService.buscarEpisodiosOmb(serieOmdb);
-            episodiosSerieOmdb.forEach(e -> e.setSerie(serieOmdb));
-            serieOmdb.setEpisodios(episodiosSerieOmdb);
-            serieRepository.save(serieOmdb);
-            return new SerieDto(serieOmdb);
-        }
+            if (dadoOmdbTitulo.tipo().equalsIgnoreCase("series")) {
+                Serie serieOmdb = new Serie(dadoOmdbTitulo);
+                List<Episodio> episodiosSerieOmdb = buscarTituloOmdbService.buscarEpisodiosOmb(serieOmdb);
+                episodiosSerieOmdb.forEach(e -> e.setSerie(serieOmdb));
+                serieOmdb.setEpisodios(episodiosSerieOmdb);
+                serieRepository.save(serieOmdb);
+                return new SerieDto(serieOmdb);
+            }
 
-        Serie serieDb = serieDbOpt.get();
-        return new SerieDto(serieDb);
+        }
+        return serieDbOpt.map(SerieDto::new).orElseThrow(TituloNotFoundException::new);
     }
 }
