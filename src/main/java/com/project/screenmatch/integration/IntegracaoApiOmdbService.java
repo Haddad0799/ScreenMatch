@@ -15,7 +15,6 @@ public class IntegracaoApiOmdbService implements IntegracaoApiExterna{
 
     private final ObjectMapper mapper = new ObjectMapper();
 
-
     @Override
     public <T> T buscarDados(Class<T> tipoDeRetorno, String endpoint) {
 
@@ -28,13 +27,12 @@ public class IntegracaoApiOmdbService implements IntegracaoApiExterna{
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new RuntimeException(e);
+            throw new InternalError();
         }
         try{
             return mapper.readValue(response.body(),tipoDeRetorno);
         }catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new InternalError();
         }
-
     }
 }

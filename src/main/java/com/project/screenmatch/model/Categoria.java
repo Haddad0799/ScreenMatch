@@ -28,7 +28,7 @@ public enum Categoria {
                 return categoria;
             }
         }
-        throw new IllegalArgumentException("Nenhuma categoria encontrada para a string fornecida: " + text);
+        throw new IllegalArgumentException();
     }
 
     public static Categoria fromPortugues(String text) {
@@ -37,7 +37,7 @@ public enum Categoria {
                 return categoria;
             }
         }
-        throw new IllegalArgumentException("Nenhuma categoria encontrada para a string fornecida: " + text);
+        throw new IllegalArgumentException();
     }
 
 

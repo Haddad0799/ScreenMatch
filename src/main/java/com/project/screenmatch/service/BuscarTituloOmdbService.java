@@ -2,6 +2,7 @@ package com.project.screenmatch.service;
 
 import com.project.screenmatch.dtos.DadoOmdbTemporada;
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
+import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
 import com.project.screenmatch.integration.IntegracaoApiOmdbService;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;
@@ -36,7 +37,7 @@ public class BuscarTituloOmdbService {
         if (dadoOmdbTitulo != null) {
             return dadoOmdbTitulo;
         }
-        throw new RuntimeException("erro");
+        throw new TituloNotFoundException();
     }
 
     public List<Episodio> buscarEpisodiosOmb(Serie serie) {

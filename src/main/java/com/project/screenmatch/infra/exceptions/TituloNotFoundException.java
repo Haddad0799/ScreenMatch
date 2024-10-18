@@ -1,4 +1,4 @@
-package com.project.screenmatch.exceptions;
+package com.project.screenmatch.infra.exceptions;
 
 public class TituloNotFoundException extends RuntimeException{
     public TituloNotFoundException(){
