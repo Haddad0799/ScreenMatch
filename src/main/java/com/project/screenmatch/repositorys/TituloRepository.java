@@ -8,12 +8,13 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 @NoRepositoryBean
 public interface TituloRepository<T extends Titulo> extends JpaRepository<T, Long> {
     // Métodos comuns para Filme e Serie
 
-    T findByTituloContainingIgnoreCase(String titulo);
+   Optional<T> findByTituloContainingIgnoreCase(String titulo);
     List<T> findByGenero(Categoria genero);
     List<T> findByNotaGreaterThanEqual(Double nota);
     List<T> findTop5ByOrderByNotaDesc();

@@ -1,43 +1,41 @@
 package com.project.screenmatch.service;
 
 import com.project.screenmatch.dtos.DadoOmdbTemporada;
-import com.project.screenmatch.dtos.EpisodioDto;
+import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.integration.IntegracaoApiOmdbService;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;
-import com.project.screenmatch.model.UrlConstrutor;
-import com.project.screenmatch.repositorys.SerieRepository;
+import com.project.screenmatch.util.UrlConstrutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
-public class BuscarEpisodiosService {
-
-    private final SerieRepository serieRepository;
+public class BuscarTituloOmdbService {
 
     private final IntegracaoApiOmdbService integracaoApiOmdbService;
 
     private final UrlConstrutor urlConstrutor;
 
-    public BuscarEpisodiosService(SerieRepository serieRepository, IntegracaoApiOmdbService integracaoApiOmdbService, UrlConstrutor urlConstrutor) {
-        this.serieRepository = serieRepository;
+
+    public BuscarTituloOmdbService(IntegracaoApiOmdbService integracaoApiOmdbService,
+                                   UrlConstrutor urlConstrutor) {
         this.integracaoApiOmdbService = integracaoApiOmdbService;
         this.urlConstrutor = urlConstrutor;
+
     }
 
-    public List<EpisodioDto> buscarEpisodiosDb(Serie serie) {
+    public DadoOmdbTitulo buscarTituloOmdb(String tituloPesquisado) {
 
-        Optional<Serie> serieDb = serieRepository.findById(serie.getId());
+        DadoOmdbTitulo dadoOmdbTitulo = integracaoApiOmdbService.buscarDados(
+                DadoOmdbTitulo.class,
+                urlConstrutor.construirUrl(tituloPesquisado)
+        );
 
-        if (serieDb.isPresent()) {
-            return serieDb.get().getEpisodios()
-                    .stream()
-                    .map(EpisodioDto::new).toList();
+        if (dadoOmdbTitulo != null) {
+            return dadoOmdbTitulo;
         }
         throw new RuntimeException("erro");
-
     }
 
     public List<Episodio> buscarEpisodiosOmb(Serie serie) {
@@ -54,7 +52,6 @@ public class BuscarEpisodiosService {
             serie.setEpisodios(episodios);
         }
         serie.setEpisodios(episodios);
-        serieRepository.save(serie);
-      return episodios;
+        return episodios;
     }
 }

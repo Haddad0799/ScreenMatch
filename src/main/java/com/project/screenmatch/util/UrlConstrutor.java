@@ -1,4 +1,4 @@
-package com.project.screenmatch.model;
+package com.project.screenmatch.util;
 
 
 import org.springframework.stereotype.Component;

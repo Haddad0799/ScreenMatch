@@ -17,6 +17,7 @@ public class Episodio {
     private String dataLancamento;
     @Setter
     private double nota;
+
     @Setter
     @ManyToOne
     private Serie serie;
