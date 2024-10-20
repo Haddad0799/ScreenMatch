@@ -26,17 +26,29 @@ public class BuscarSerieService {
         Optional<Serie> serieDbOpt = serieRepository.findByTituloContainingIgnoreCase(tituloPesquisado);
 
         if (serieDbOpt.isEmpty()) {
-            DadoOmdbTitulo dadoOmdbTitulo = buscarTituloOmdbService.buscarTituloOmdb(tituloPesquisado);
-            if (dadoOmdbTitulo.tipo().equalsIgnoreCase("series")) {
-                Serie serieOmdb = new Serie(dadoOmdbTitulo);
-                List<Episodio> episodiosSerieOmdb = buscarTituloOmdbService.buscarEpisodiosOmb(serieOmdb);
-                episodiosSerieOmdb.forEach(e -> e.setSerie(serieOmdb));
-                serieOmdb.setEpisodios(episodiosSerieOmdb);
-                serieRepository.save(serieOmdb);
-                return new SerieDto(serieOmdb);
-            }
+         return buscarSerieOmdb(tituloPesquisado);
 
         }
         return serieDbOpt.map(SerieDto::new).orElseThrow(TituloNotFoundException::new);
+
+    }
+
+    private SerieDto buscarSerieOmdb(String tituloPesquisado) {
+        DadoOmdbTitulo dadoOmdbTitulo = buscarTituloOmdbService.buscarTituloOmdb(tituloPesquisado);
+
+        if (dadoOmdbTitulo.tipo().equalsIgnoreCase("series")) {
+
+            Serie serieOmdb = new Serie(dadoOmdbTitulo);
+
+            List<Episodio> episodiosSerieOmdb = buscarTituloOmdbService.buscarEpisodiosOmb(serieOmdb);
+            episodiosSerieOmdb.forEach(e -> e.setSerie(serieOmdb));
+
+            serieOmdb.setEpisodios(episodiosSerieOmdb);
+
+            serieRepository.save(serieOmdb);
+
+            return new SerieDto(serieOmdb);
+        }
+        throw new TituloNotFoundException();
     }
 }

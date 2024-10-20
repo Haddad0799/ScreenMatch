@@ -1,6 +1,7 @@
 package com.project.screenmatch.infra.ExceptionHandller;
 
 import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
+import com.project.screenmatch.infra.exceptions.TituloNotPresentException;
 import com.project.screenmatch.model.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
@@ -48,6 +49,12 @@ public class ExceptionHandlerApl {
     public ResponseEntity<ApiErrorResponse> handleInternalServerErrorExceptions(RuntimeException ex, HttpServletRequest request) {
         logger.error("Erro INTERNAL_SERVER_ERROR: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage(), request);
+    }
+
+    @ExceptionHandler({TituloNotPresentException.class})
+    public ResponseEntity<ApiErrorResponse> handleNoContentExceptions(RuntimeException ex, HttpServletRequest request) {
+        logger.error("Erro NO_CONTENT: {}", ex.getMessage());
+        return buildErrorResponse(HttpStatus.NO_CONTENT, ex.getMessage(), request);
     }
 
 }

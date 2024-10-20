@@ -15,11 +15,11 @@ public interface TituloRepository<T extends Titulo> extends JpaRepository<T, Lon
     // Métodos comuns para Filme e Serie
 
    Optional<T> findByTituloContainingIgnoreCase(String titulo);
-   Optional<List<T>> findByGenero(Categoria genero);
-   Optional<List<T>>findByNotaGreaterThanEqual(Double nota);
-   Optional<List<T>>findTop5ByOrderByNotaDesc();
+   Optional<List<T>> findByGenero(@Param("genero") Categoria genero);
+
+    Optional<List<T>>findTop5ByOrderByNotaDesc();
 
     @Query("SELECT t FROM Titulo t WHERE t.dataDeLancamento LIKE %:ano%")
-    List<T> findByAno(@Param("ano") String ano);
+   Optional<List<T>>findByAno(@Param("ano") String ano);
 
 }

@@ -24,14 +24,23 @@ public class BuscarFilmeService {
         Optional<Filme> filmeDbOpt = filmeRepository.findByTituloContainingIgnoreCase(tituloPesquisado);
 
         if (filmeDbOpt.isEmpty()) {
-            DadoOmdbTitulo dadoOmdbTitulo = buscarTituloOmdbService.buscarTituloOmdb(tituloPesquisado);
-            if(dadoOmdbTitulo.tipo().equalsIgnoreCase("movie")) {
-                Filme filmeOmdb = new Filme(dadoOmdbTitulo);
-                filmeRepository.save(filmeOmdb);
-                return new FilmeDto(filmeOmdb);
-            }
+         return buscarFilmeOmdb(tituloPesquisado);
         }
 
         return filmeDbOpt.map(FilmeDto::new).orElseThrow(TituloNotFoundException::new);
+    }
+
+    private FilmeDto buscarFilmeOmdb(String tituloPesquisado) {
+        DadoOmdbTitulo dadoOmdbTitulo = buscarTituloOmdbService.buscarTituloOmdb(tituloPesquisado);
+
+        if(dadoOmdbTitulo.tipo().equalsIgnoreCase("movie")) {
+
+            Filme filmeOmdb = new Filme(dadoOmdbTitulo);
+
+            filmeRepository.save(filmeOmdb);
+
+            return new FilmeDto(filmeOmdb);
+        }
+        throw new TituloNotFoundException();
     }
 }
