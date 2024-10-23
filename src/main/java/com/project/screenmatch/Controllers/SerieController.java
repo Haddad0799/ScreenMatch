@@ -30,6 +30,11 @@ public class SerieController {
         return ResponseEntity.ok().body(buscarSerieService.buscarSerie(nomeSerie));
     }
 
+    @GetMapping("/genero/{genero}")
+    public ResponseEntity<List<SerieDto>> seriesBygenero(@PathVariable String genero) {
+        return ResponseEntity.ok().body(serieFilterService.seriesByGenero(genero));
+    }
+
     @GetMapping("/top5")
     public ResponseEntity<List<SerieDto>> top5Series(){
      return ResponseEntity.ok().body(serieFilterService.seriesTop5());
@@ -43,6 +48,11 @@ public class SerieController {
     @GetMapping("/{id}/episodios")
     public ResponseEntity<List<EpisodioDto>> serieAllEpisodios(@PathVariable Long id) {
         return ResponseEntity.ok().body(serieFilterService.allEpisodiosSerie(id));
+    }
+
+    @GetMapping("{id}/episodios/{temporada}")
+    public ResponseEntity<List<EpisodioDto>> serieAllEpisodiosTemporada(@PathVariable Long id, @PathVariable int temporada){
+        return ResponseEntity.ok().body(serieFilterService.allEpisodiosSerieTemporada(id, temporada));
     }
 
     @GetMapping("/{id}/episodios/top5")

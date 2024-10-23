@@ -41,6 +41,11 @@ public class FilmeController {
                 .body(filmeFilterService.filmesLancamentos());
     }
 
+    @GetMapping("genero/{genero}")
+    public ResponseEntity<List<FilmeDto>> filmesByGenero(@PathVariable String genero){
+        return ResponseEntity.ok().body(filmeFilterService.filmesByGenero(genero));
+    }
+
 
 
 }

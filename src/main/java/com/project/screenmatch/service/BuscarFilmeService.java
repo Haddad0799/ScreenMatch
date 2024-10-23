@@ -3,7 +3,6 @@ package com.project.screenmatch.service;
 import com.project.screenmatch.dtos.DadoOmdbTitulo;
 import com.project.screenmatch.dtos.FilmeDto;
 import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
-import com.project.screenmatch.integration.IntegracaoApiOmdbService;
 import com.project.screenmatch.model.Filme;
 import com.project.screenmatch.repositorys.FilmeRepository;
 import org.springframework.stereotype.Service;
@@ -15,7 +14,7 @@ public class BuscarFilmeService {
     private final FilmeRepository filmeRepository;
     private final BuscarTituloOmdbService buscarTituloOmdbService;
 
-    public BuscarFilmeService(FilmeRepository filmeRepository, IntegracaoApiOmdbService integracaoApiOmdbService, BuscarTituloOmdbService buscarTituloOmdbService) {
+    public BuscarFilmeService(FilmeRepository filmeRepository, BuscarTituloOmdbService buscarTituloOmdbService) {
         this.filmeRepository = filmeRepository;
         this.buscarTituloOmdbService = buscarTituloOmdbService;
     }

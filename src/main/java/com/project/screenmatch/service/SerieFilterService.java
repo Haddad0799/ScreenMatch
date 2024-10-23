@@ -4,6 +4,7 @@ import com.project.screenmatch.dtos.EpisodioDto;
 import com.project.screenmatch.dtos.SerieDto;
 import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
 import com.project.screenmatch.infra.exceptions.TituloNotPresentException;
+import com.project.screenmatch.model.Categoria;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;
 import com.project.screenmatch.repositorys.SerieRepository;
@@ -87,6 +88,18 @@ public class SerieFilterService {
                 .stream()
                 .map(EpisodioDto::new)
                 .limit(5)
+                .toList();
+    }
+
+    public List<SerieDto> seriesByGenero(String genero) {
+        Categoria categoria = Categoria.fromPortugues(genero);
+
+        List<Serie> seriesPorCategoriaDb = serieRepository.findByGenero(categoria)
+                .orElseThrow(TituloNotPresentException::new);
+
+        return seriesPorCategoriaDb
+                .stream()
+                .map(SerieDto::new)
                 .toList();
     }
 }

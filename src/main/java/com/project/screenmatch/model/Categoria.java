@@ -1,5 +1,7 @@
 package com.project.screenmatch.model;
 
+import com.project.screenmatch.infra.exceptions.CategoriaNotFoundException;
+
 public enum Categoria {
     ACAO("Action", "Ação"),
     COMEDIA("Comedy", "Comédia"),
@@ -28,7 +30,7 @@ public enum Categoria {
                 return categoria;
             }
         }
-        throw new IllegalArgumentException();
+        throw new CategoriaNotFoundException(text);
     }
 
     public static Categoria fromPortugues(String text) {
@@ -37,7 +39,7 @@ public enum Categoria {
                 return categoria;
             }
         }
-        throw new IllegalArgumentException();
+        throw new CategoriaNotFoundException(text);
     }
 
 
