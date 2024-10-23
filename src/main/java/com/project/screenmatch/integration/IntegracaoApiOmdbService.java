@@ -2,6 +2,8 @@ package com.project.screenmatch.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.project.screenmatch.infra.exceptions.ErroComunicacaoApiOmdb;
+import com.project.screenmatch.infra.exceptions.ErroNaSerializacaoDosDados;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -27,12 +29,12 @@ public class IntegracaoApiOmdbService implements IntegracaoApiExterna{
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
         } catch (IOException | InterruptedException e) {
-            throw new InternalError();
+            throw new ErroComunicacaoApiOmdb(e.getMessage());
         }
         try{
             return mapper.readValue(response.body(),tipoDeRetorno);
         }catch (JsonProcessingException e) {
-            throw new InternalError();
+            throw new ErroNaSerializacaoDosDados(e.getMessage());
         }
     }
 }

@@ -34,10 +34,11 @@ public class BuscarTituloOmdbService {
                 urlConstrutor.construirUrl(tituloPesquisado)
         );
 
-        if (dadoOmdbTitulo != null) {
-            return dadoOmdbTitulo;
+        if (dadoOmdbTitulo.tipo() == null) {
+            throw new TituloNotFoundException();
         }
-        throw new TituloNotFoundException();
+        return dadoOmdbTitulo;
+
     }
 
     public List<Episodio> buscarEpisodiosOmb(Serie serie) {

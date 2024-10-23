@@ -42,17 +42,17 @@ public class SerieController {
 
     @GetMapping("/{id}/episodios")
     public ResponseEntity<List<EpisodioDto>> serieAllEpisodios(@PathVariable Long id) {
-        return ResponseEntity.ok().body(serieFilterService.allEpisodios(id));
+        return ResponseEntity.ok().body(serieFilterService.allEpisodiosSerie(id));
     }
 
     @GetMapping("/{id}/episodios/top5")
     public ResponseEntity<List<EpisodioDto>> top5EpisodiosDaSerie(@PathVariable Long id) {
-        return ResponseEntity.ok().body(serieFilterService.top5Episodios(id));
+        return ResponseEntity.ok().body(serieFilterService.top5EpisodiosSerie(id));
     }
 
-    @GetMapping("{id}/episodios/{temporada}")
+    @GetMapping("{id}/episodios/{temporada}/top5")
     public ResponseEntity<List<EpisodioDto>> top5EpisodiosTemporada(@PathVariable Long id, @PathVariable int temporada){
-        return ResponseEntity.ok().body(serieFilterService.episodiosTemporada(id,temporada));
+        return ResponseEntity.ok().body(serieFilterService.top5EpisodiosSerieTemporada(id,temporada));
     }
 
 }

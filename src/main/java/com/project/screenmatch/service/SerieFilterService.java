@@ -18,6 +18,7 @@ public class SerieFilterService {
     private final SerieRepository serieRepository;
 
     public SerieFilterService( SerieRepository serieRepository) {
+
         this.serieRepository = serieRepository;
     }
 
@@ -34,32 +35,58 @@ public class SerieFilterService {
         List<Serie> seriesLancamentosDb = serieRepository.findByAno("2024")
                 .orElseThrow(TituloNotPresentException::new);
 
-        return seriesLancamentosDb.stream().map(SerieDto::new).toList();
+        return seriesLancamentosDb
+                .stream()
+                .map(SerieDto::new)
+                .toList();
     }
 
     @Transactional
-    public List<EpisodioDto> allEpisodios(Long id) {
-        List<Episodio> episodiosDb = serieRepository.allEpisodios(id)
+    public List<EpisodioDto> allEpisodiosSerie(Long id) {
+        List<Episodio> serieEpisodiosDb = serieRepository.allEpisodiosSerie(id)
                 .orElseThrow(TituloNotFoundException::new);
 
-        return episodiosDb.stream().map(EpisodioDto::new).toList();
+        return serieEpisodiosDb
+                .stream()
+                .map(EpisodioDto::new)
+                .toList();
 
     }
+
     @Transactional
-    public List<EpisodioDto> top5Episodios(Long id) {
-        List<Episodio> topEpisodiosDb = serieRepository.topEpisodios(id)
+    public List<EpisodioDto> allEpisodiosSerieTemporada(Long serieId, int temporada) {
+        List<Episodio> episodiosTemporadaDb = serieRepository
+                .allEpisodiosSerieTemporada(serieId,temporada)
+                .orElseThrow(TituloNotFoundException::new);
+
+        return episodiosTemporadaDb
+                .stream()
+                .map(EpisodioDto::new)
+                .toList();
+    }
+
+    @Transactional
+    public List<EpisodioDto> top5EpisodiosSerie(Long serieId) {
+        List<Episodio> topEpisodiosDb = serieRepository.topEpisodiosSerie(serieId)
                 .orElseThrow(TituloNotPresentException::new);
 
-        return topEpisodiosDb.stream().map(EpisodioDto::new).limit(5).toList();
+        return topEpisodiosDb
+                .stream()
+                .map(EpisodioDto::new)
+                .limit(5)
+                .toList();
     }
 
     @Transactional
-    public List<EpisodioDto> episodiosTemporada(Long id, int temporada) {
-        List<Episodio> topEpisodiosTemporadaDb = serieRepository
-                .episodiosFindAllByTemporada(id,temporada)
-                .orElseThrow(TituloNotFoundException::new);
+    public List<EpisodioDto> top5EpisodiosSerieTemporada(Long serieId, int temporada) {
+        List<Episodio> topEpisodiosTemporadaDb = serieRepository.
+                allEpisodiosSerieTemporadaFilterByNota(serieId,temporada)
+                .orElseThrow(TituloNotPresentException::new);
 
-        return topEpisodiosTemporadaDb.stream().map(EpisodioDto::new).toList();
+        return topEpisodiosTemporadaDb
+                .stream()
+                .map(EpisodioDto::new)
+                .limit(5)
+                .toList();
     }
-
 }

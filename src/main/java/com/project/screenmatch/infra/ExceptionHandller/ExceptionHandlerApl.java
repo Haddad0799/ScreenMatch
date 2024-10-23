@@ -1,5 +1,7 @@
 package com.project.screenmatch.infra.ExceptionHandller;
 
+import com.project.screenmatch.infra.exceptions.ErroComunicacaoApiOmdb;
+import com.project.screenmatch.infra.exceptions.ErroNaSerializacaoDosDados;
 import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
 import com.project.screenmatch.infra.exceptions.TituloNotPresentException;
 import com.project.screenmatch.model.ApiErrorResponse;
@@ -11,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 
 @RestControllerAdvice
@@ -30,7 +31,8 @@ public class ExceptionHandlerApl {
         return new ResponseEntity<>(apiErrorResponse, status);
     }
 
-    @ExceptionHandler({IllegalArgumentException.class})
+    @ExceptionHandler({IllegalArgumentException.class,
+            ErroNaSerializacaoDosDados.class})
     public ResponseEntity<ApiErrorResponse> handleBadRequestExceptions(RuntimeException ex, HttpServletRequest request) {
         logger.error("Erro BAD_REQUEST: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.BAD_REQUEST, ex.getMessage(), request);
@@ -42,9 +44,7 @@ public class ExceptionHandlerApl {
         return buildErrorResponse(HttpStatus.NOT_FOUND, ex.getMessage(), request);
     }
 
-    @ExceptionHandler({IOException.class,
-                    InterruptedException.class,
-                    InternalError.class
+    @ExceptionHandler({ErroComunicacaoApiOmdb.class
     })
     public ResponseEntity<ApiErrorResponse> handleInternalServerErrorExceptions(RuntimeException ex, HttpServletRequest request) {
         logger.error("Erro INTERNAL_SERVER_ERROR: {}", ex.getMessage());
@@ -56,5 +56,6 @@ public class ExceptionHandlerApl {
         logger.error("Erro NO_CONTENT: {}", ex.getMessage());
         return buildErrorResponse(HttpStatus.NO_CONTENT, ex.getMessage(), request);
     }
+
 
 }

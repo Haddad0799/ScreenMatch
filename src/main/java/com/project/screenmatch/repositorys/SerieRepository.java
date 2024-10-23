@@ -20,17 +20,23 @@ public interface SerieRepository extends TituloRepository<Serie> {
        AND e.nota >= 8.0
        ORDER BY e.nota DESC
       \s""")
-    Optional<List<Episodio>> topEpisodios(@Param("id") Long id);
+    Optional<List<Episodio>> topEpisodiosSerie(@Param("id") Long id);
 
     @Query("SELECT e FROM Episodio e WHERE e.serie.id = :id")
-    Optional<List<Episodio>> allEpisodios(@Param("id") Long id);
+    Optional<List<Episodio>> allEpisodiosSerie(@Param("id") Long id);
 
     @Query("SELECT e " +
             "FROM Episodio e " +
             "WHERE e.serie.id = :id " +
             "AND e.temporada = :temporada")
-    Optional<List<Episodio>> episodiosFindAllByTemporada(@Param("id") Long id, @Param("temporada") int temporada);
+    Optional<List<Episodio>> allEpisodiosSerieTemporada(@Param("id") Long id, @Param("temporada") int temporada);
 
+
+    @Query("SELECT e " +
+            "FROM Episodio e " +
+            "WHERE e.serie.id = :id " +
+            "AND e.temporada = :temporada ORDER BY e.nota DESC")
+    Optional<List<Episodio>> allEpisodiosSerieTemporadaFilterByNota(@Param("id") Long id, @Param("temporada") int temporada);
 
 }
 
