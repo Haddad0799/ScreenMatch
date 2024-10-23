@@ -51,4 +51,10 @@ public class BuscarSerieService {
         }
         throw new TituloNotFoundException();
     }
+
+    public SerieDto buscarSerie(Long id) {
+        Serie serie = serieRepository.findById(id).orElseThrow(TituloNotFoundException::new);
+
+        return new SerieDto(serie);
+    }
 }

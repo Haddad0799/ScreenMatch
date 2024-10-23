@@ -42,4 +42,10 @@ public class BuscarFilmeService {
         }
         throw new TituloNotFoundException();
     }
+
+    public FilmeDto buscarFilme(Long id) {
+        Filme filmeDb = filmeRepository.findById(id).orElseThrow(TituloNotFoundException::new);
+
+        return new FilmeDto(filmeDb);
+    }
 }

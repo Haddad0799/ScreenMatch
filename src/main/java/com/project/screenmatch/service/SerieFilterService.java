@@ -24,6 +24,20 @@ public class SerieFilterService {
     }
 
     @Transactional
+    public List<SerieDto> allSeries() {
+        List<Serie> allSeriesDb = serieRepository.findAll();
+
+        if (allSeriesDb.isEmpty()) {
+            throw new TituloNotPresentException();
+        }
+
+        return allSeriesDb
+                .stream()
+                .map(SerieDto::new)
+                .toList();
+    }
+
+    @Transactional
     public List<SerieDto> seriesTop5(){
         List<Serie>  seriesTop5Db = serieRepository.findTop5ByOrderByNotaDesc()
                 .orElseThrow(TituloNotPresentException::new);

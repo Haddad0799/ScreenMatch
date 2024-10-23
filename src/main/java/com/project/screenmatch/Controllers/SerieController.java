@@ -25,12 +25,23 @@ public class SerieController {
 
     }
 
-    @GetMapping ("/{nomeSerie}")
-    public ResponseEntity<SerieDto> BuscarSerie(@PathVariable String nomeSerie){
+    @GetMapping
+    public ResponseEntity<List<SerieDto>> allSeries() {
+        return ResponseEntity.ok().body(serieFilterService.allSeries());
+    }
+
+    @GetMapping("/id={id}")
+    public ResponseEntity<SerieDto> buscarSerie(@PathVariable Long id){
+        return ResponseEntity.ok().body(buscarSerieService.buscarSerie(id));
+    }
+
+
+    @GetMapping ("/nome={nomeSerie}")
+    public ResponseEntity<SerieDto> buscarSerie(@PathVariable String nomeSerie){
         return ResponseEntity.ok().body(buscarSerieService.buscarSerie(nomeSerie));
     }
 
-    @GetMapping("/genero/{genero}")
+    @GetMapping("/genero={genero}")
     public ResponseEntity<List<SerieDto>> seriesBygenero(@PathVariable String genero) {
         return ResponseEntity.ok().body(serieFilterService.seriesByGenero(genero));
     }
@@ -45,22 +56,22 @@ public class SerieController {
         return ResponseEntity.ok().body(serieFilterService.seriesLancamentos());
     }
 
-    @GetMapping("/{id}/episodios")
+    @GetMapping("/id={id}/episodios")
     public ResponseEntity<List<EpisodioDto>> serieAllEpisodios(@PathVariable Long id) {
         return ResponseEntity.ok().body(serieFilterService.allEpisodiosSerie(id));
     }
 
-    @GetMapping("{id}/episodios/{temporada}")
+    @GetMapping("id={id}/episodios/temporada={temporada}")
     public ResponseEntity<List<EpisodioDto>> serieAllEpisodiosTemporada(@PathVariable Long id, @PathVariable int temporada){
         return ResponseEntity.ok().body(serieFilterService.allEpisodiosSerieTemporada(id, temporada));
     }
 
-    @GetMapping("/{id}/episodios/top5")
+    @GetMapping("/id={id}/episodios/top5")
     public ResponseEntity<List<EpisodioDto>> top5EpisodiosDaSerie(@PathVariable Long id) {
         return ResponseEntity.ok().body(serieFilterService.top5EpisodiosSerie(id));
     }
 
-    @GetMapping("{id}/episodios/{temporada}/top5")
+    @GetMapping("id={id}/episodios/temporada={temporada}/top5")
     public ResponseEntity<List<EpisodioDto>> top5EpisodiosTemporada(@PathVariable Long id, @PathVariable int temporada){
         return ResponseEntity.ok().body(serieFilterService.top5EpisodiosSerieTemporada(id,temporada));
     }
