@@ -46,11 +46,13 @@ CREATE DATABASE screenmatch
 
 Recomendado a utilização da mesma nomenclatura na criação das seguintes variáveis:
 
-- **OMDB_APIKEY**: Chave da API externa de filmes e séries para as requisições. [Link para obter a chave](https://www.omdbapi.com/apikey.aspx)
+- **OMDB_APIKEY**: Chave da API externa de filmes e séries para as requisições.
+ [Link para obter a chave](https://www.omdbapi.com/apikey.aspx)
 - **MYSQL_DB_HOST**: Variável que representa o host do banco de dados.
 - **MYSQL_DB_USERNAME**: Variável com o nome do usuário do banco de dados.
 - **MYSQL_DB_PASSWORD**: Variável com a senha do usuário do banco de dados.
-- **OMDB_APIKEY**: Chave da API do chatGpt para obter tradução dos dados. [Saiba como obter sua chave](https://gipiti.chat/get-chatgpt-api-key)
+- **OPENAI_APIKEY**: Chave da API do chatGpt para obter tradução dos dados.
+[Saiba como obter sua chave](https://gipiti.chat/get-chatgpt-api-key)
 
 #### **OMDB_APIKEY**
 ##### **Adicione sua chave OMDB nesses dois métodos da classe UrlConstrutor.class** 
@@ -69,7 +71,7 @@ public String construirUrl(String tituloPesquisado, Integer temporada) {
                     + TEMPORADA_ENDPOINT + temporada +  API_KEY_ENDPOINT + System.getenv("SUA_OMDB_APIKEY_AQUI");
         } 
 ````
-#### **OMDB_APIKEY**
+#### **OPENAI_APIKEY**
 #### **Adicione sua API key do chatGpt no método estático da classe TradutorChatGptService.class.**
 - **Path:** com.project.screenmatch.service
 ```plaintext
@@ -90,6 +92,10 @@ public static String obterTraducao(String texto) {
             return "Falha na tradução!";
         }
     }
+````
+## ** OBSERVAÇÃO: ** A versão gratuita dessa funcionalidade possui um limite de requisições, fazendo com que essa funcionalidade as vezes NÃO funcione. Portanto mantive o método que realiza essa tradução comentado, retire o comentário caso deseje utilizar essa funcionalidade.
+```sh
+//TradutorChatGptService.obterTraducao(filmeOmdb.getSinopse()); 
 ````
 #### **Variáveis database:**
 - **Path:** application.properties
