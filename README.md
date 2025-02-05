@@ -9,7 +9,7 @@ A **ScreenMatch API** é uma API desenvolvida para filtrar dados sobre filmes e 
 - Java Versão 17+
 - Maven
 - Spring Versão 3
-- Flyway
+- Spring Data JPA
 - MySQL
 - Documentação com Swagger API
 
@@ -46,14 +46,15 @@ CREATE DATABASE screenmatch
 
 Recomendado a utilização da mesma nomenclatura na criação das seguintes variáveis:
 
-- **OMDB_APIKEY**: Chave da API externa de filmes e séries para as requisições [Link para obter a chave](https://www.omdbapi.com/apikey.aspx)
+- **OMDB_APIKEY**: Chave da API externa de filmes e séries para as requisições. [Link para obter a chave](https://www.omdbapi.com/apikey.aspx)
 - **MYSQL_DB_HOST**: Variável que representa o host do banco de dados.
 - **MYSQL_DB_USERNAME**: Variável com o nome do usuário do banco de dados.
 - **MYSQL_DB_PASSWORD**: Variável com a senha do usuário do banco de dados.
+- **OMDB_APIKEY**: Chave da API do chatGpt para obter tradução dos dados. [Saiba como obter sua chave](https://gipiti.chat/get-chatgpt-api-key)
 
 #### **OMDB_APIKEY**
 ##### **Adicione sua chave OMDB nesses dois métodos da classe UrlConstrutor.class** 
-- **path:** com.project.screenmatch.util
+- **Path:** com.project.screenmatch.util
 ```plaintext
  public String construirUrl(String tituloPesquisado) {
 
@@ -68,8 +69,28 @@ public String construirUrl(String tituloPesquisado, Integer temporada) {
                     + TEMPORADA_ENDPOINT + temporada +  API_KEY_ENDPOINT + System.getenv("SUA_OMDB_APIKEY_AQUI");
         } 
 ````
+#### **OMDB_APIKEY**
+#### **Adicione sua API key do chatGpt no método estático da classe TradutorChatGptService.class.**
+- **Path:** com.project.screenmatch.service
+```plaintext
+public static String obterTraducao(String texto) {
+        OpenAiService service = new OpenAiService(System.getenv("SUA_OPENAI_APIKEY_AQUI"));
 
+        CompletionRequest requisicao = CompletionRequest.builder()
+                .model("gpt-4")
+                .prompt("Please translate the following text into Portuguese: \n\n" + texto)
+                .maxTokens(1000)
+                .temperature(0.5) //
+                .build();
 
+        var resposta = service.createCompletion(requisicao);
+        if (resposta.getChoices() != null && !resposta.getChoices().isEmpty()) {
+            return resposta.getChoices().get(0).getText().trim();
+        } else {
+            return "Falha na tradução!";
+        }
+    }
+````
 #### **Variáveis database:**
 - **Path:** application.properties
 ```plaintext
