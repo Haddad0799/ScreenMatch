@@ -81,25 +81,6 @@ mvn spring-boot:run
 ##  🌐 **Endpoints Disponíveis** 
 - Com a aplicação rodando acesse o endpoint da documentação do swagger: http://localhost:8080/swagger-ui.html
 
-## 📂 **Arquitetura do Projeto**
-### A arquitetura do projeto foi baseada no padrão MVC utilizando clean archtecture, visando o desacoplamento das regras de negócios dos demais componentes que envolvem a aplicação, tornando a aplicação escalável, de fácil manutensão e expansão.
-
-- Estrutura dos pacotes:
-
-```plaintext
-/src
-│── com.project.screenmatch
-|   ├── config           # Possui as Configurações do projeto
-|   ├── controllers      # Contém os endpoints da API
-│   ├── dtos             # Contém os objetos de transferência de dados
-│   ├── infra            # Contém classes relacionadas a infraestrutura e exceptions
-│   ├── integration      # Contém classes de integração com serviços externos
-│   ├── model            # Contém as entidades do banco de dados
-│   ├── repositorys      # Contém as interfaces de acesso ao banco de dados
-│   ├── service          # Contém as regras de negócio
-│   └── util             # Contém classes auxiliares para formatação e validação
-````
-
 
 
 
