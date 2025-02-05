@@ -93,11 +93,11 @@ public static String obterTraducao(String texto) {
         }
     }
 ````
-## ** OBSERVAÇÃO: ** A versão gratuita dessa funcionalidade possui um limite de requisições, fazendo com que essa funcionalidade as vezes NÃO funcione. Portanto mantive o método que realiza essa tradução comentado, retire o comentário caso deseje utilizar essa funcionalidade.
+#### ** OBSERVAÇÃO: ** A versão gratuita dessa funcionalidade possui um limite de requisições, fazendo com que essa funcionalidade as vezes NÃO funcione. Portanto mantive o método que realiza essa tradução comentado, retire o comentário caso deseje utilizar essa funcionalidade.
 ```sh
 //TradutorChatGptService.obterTraducao(filmeOmdb.getSinopse()); 
 ````
-#### **Variáveis database:**
+#### **Variáveis do banco de dados:**
 - **Path:** application.properties
 ```plaintext
 spring.datasource.url=jdbc:mysql://${SEU_MYSQL_DB_HOST_AQUI}/screenmatch
