@@ -21,7 +21,7 @@ A **ScreenMatch API** é uma API desenvolvida para filtrar dados sobre filmes e 
 Para clonar o repositório, use o comando abaixo no terminal:
 
 ```sh
-git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+git clone https://github.com/Haddad0799/screenmatch.git
 ````
 
 ### **1️⃣ IDE Requerida**  
