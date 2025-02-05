@@ -1,4 +1,4 @@
-package com.project.screenmatch.springDoc;
+package com.project.screenmatch.config.springDoc;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

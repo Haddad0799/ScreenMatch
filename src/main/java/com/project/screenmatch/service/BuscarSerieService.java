@@ -1,11 +1,11 @@
 package com.project.screenmatch.service;
 
-import com.project.screenmatch.dtos.DadoOmdbTitulo;
-import com.project.screenmatch.dtos.SerieDto;
+import com.project.screenmatch.dto.DadoOmdbTitulo;
+import com.project.screenmatch.dto.SerieDto;
 import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;
-import com.project.screenmatch.repositorys.SerieRepository;
+import com.project.screenmatch.infra.repository.SerieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +39,8 @@ public class BuscarSerieService {
         if (dadoOmdbTitulo.tipo().equalsIgnoreCase("series")) {
 
             Serie serieOmdb = new Serie(dadoOmdbTitulo);
+
+            //TradutorChatGptService.obterTraducao(serieOmdb.getSinopse());
 
             List<Episodio> episodiosSerieOmdb = buscarTituloOmdbService.buscarEpisodiosOmb(serieOmdb);
             episodiosSerieOmdb.forEach(e -> e.setSerie(serieOmdb));

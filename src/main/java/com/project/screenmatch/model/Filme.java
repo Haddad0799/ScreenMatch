@@ -1,6 +1,6 @@
 package com.project.screenmatch.model;
 
-import com.project.screenmatch.dtos.DadoOmdbTitulo;
+import com.project.screenmatch.dto.DadoOmdbTitulo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Getter;

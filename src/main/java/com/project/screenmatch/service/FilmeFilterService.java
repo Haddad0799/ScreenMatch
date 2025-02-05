@@ -1,10 +1,10 @@
 package com.project.screenmatch.service;
 
-import com.project.screenmatch.dtos.FilmeDto;
+import com.project.screenmatch.dto.FilmeDto;
 import com.project.screenmatch.infra.exceptions.TituloNotPresentException;
 import com.project.screenmatch.model.Categoria;
 import com.project.screenmatch.model.Filme;
-import com.project.screenmatch.repositorys.FilmeRepository;
+import com.project.screenmatch.infra.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

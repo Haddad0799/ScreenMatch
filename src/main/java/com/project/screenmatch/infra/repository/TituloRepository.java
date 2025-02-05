@@ -1,4 +1,4 @@
-package com.project.screenmatch.repositorys;
+package com.project.screenmatch.infra.repository;
 
 import com.project.screenmatch.model.Categoria;
 import com.project.screenmatch.model.Titulo;
