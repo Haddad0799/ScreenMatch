@@ -1,6 +1,6 @@
 package com.project.screenmatch.Controllers;
 
-import com.project.screenmatch.dtos.FilmeDto;
+import com.project.screenmatch.dto.FilmeDto;
 import com.project.screenmatch.service.BuscarFilmeService;
 import com.project.screenmatch.service.FilmeFilterService;
 import org.springframework.http.ResponseEntity;

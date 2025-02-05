@@ -1,4 +1,4 @@
-package com.project.screenmatch.repositorys;
+package com.project.screenmatch.infra.repository;
 
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;

@@ -1,7 +1,7 @@
 package com.project.screenmatch.Controllers;
 
-import com.project.screenmatch.dtos.EpisodioDto;
-import com.project.screenmatch.dtos.SerieDto;
+import com.project.screenmatch.dto.EpisodioDto;
+import com.project.screenmatch.dto.SerieDto;
 import com.project.screenmatch.service.BuscarSerieService;
 import com.project.screenmatch.service.SerieFilterService;
 import org.springframework.http.ResponseEntity;
