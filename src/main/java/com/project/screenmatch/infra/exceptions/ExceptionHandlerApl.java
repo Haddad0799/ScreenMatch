@@ -1,6 +1,5 @@
 package com.project.screenmatch.infra.exceptions;
 
-import com.project.screenmatch.model.ApiErrorResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

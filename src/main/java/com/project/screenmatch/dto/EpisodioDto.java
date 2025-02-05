@@ -1,6 +1,6 @@
 package com.project.screenmatch.dto;
 
-import com.project.screenmatch.model.Episodio;
+import com.project.screenmatch.domain.entities.Episodio;
 
 public record EpisodioDto(
         Integer temporada,

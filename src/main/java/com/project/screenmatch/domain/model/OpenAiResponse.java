@@ -1,4 +1,4 @@
-package com.project.screenmatch.model;
+package com.project.screenmatch.domain.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

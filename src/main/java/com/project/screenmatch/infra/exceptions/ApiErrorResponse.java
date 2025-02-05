@@ -1,4 +1,4 @@
-package com.project.screenmatch.model;
+package com.project.screenmatch.infra.exceptions;
 
 import lombok.Getter;
 import lombok.Setter;

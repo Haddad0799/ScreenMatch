@@ -1,7 +1,7 @@
 package com.project.screenmatch.dto;
 
-import com.project.screenmatch.model.Categoria;
-import com.project.screenmatch.model.Serie;
+import com.project.screenmatch.domain.model.Categoria;
+import com.project.screenmatch.domain.entities.Serie;
 
 public record SerieDto(
 

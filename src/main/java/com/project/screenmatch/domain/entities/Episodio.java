@@ -1,4 +1,4 @@
-package com.project.screenmatch.model;
+package com.project.screenmatch.domain.entities;
 
 import com.project.screenmatch.dto.DadoOmdbEpisodio;
 import jakarta.persistence.*;

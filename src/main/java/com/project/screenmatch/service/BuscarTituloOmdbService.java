@@ -4,8 +4,8 @@ import com.project.screenmatch.dto.DadoOmdbTemporada;
 import com.project.screenmatch.dto.DadoOmdbTitulo;
 import com.project.screenmatch.infra.exceptions.DadoOmdbTituloTipoNullException;
 import com.project.screenmatch.infra.integration.IntegracaoApiOmdbService;
-import com.project.screenmatch.model.Episodio;
-import com.project.screenmatch.model.Serie;
+import com.project.screenmatch.domain.entities.Episodio;
+import com.project.screenmatch.domain.entities.Serie;
 import com.project.screenmatch.util.UrlConstrutor;
 import org.springframework.stereotype.Service;
 

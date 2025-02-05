@@ -1,7 +1,7 @@
 package com.project.screenmatch.infra.repository;
 
-import com.project.screenmatch.model.Categoria;
-import com.project.screenmatch.model.Titulo;
+import com.project.screenmatch.domain.model.Categoria;
+import com.project.screenmatch.domain.entities.Titulo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.NoRepositoryBean;
