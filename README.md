@@ -14,8 +14,15 @@ A **ScreenMatch API** é uma API desenvolvida para filtrar dados sobre filmes e 
 - Documentação com Swagger API
 
 ## ⚙️ **Instalação e Configuração**  
-**Esta aplicação necessita de uma JVM para funcionar.**
+### **Esta aplicação necessita de uma JVM para funcionar.**
 - Acesse esse link para baixar o JDK do java na versão 17: [Baixar JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+
+### **Clone o Repositório**
+Para clonar o repositório, use o comando abaixo no terminal:
+
+```sh
+git clone https://github.com/SEU_USUARIO/SEU_REPOSITORIO.git
+````
 
 ### **1️⃣ IDE Requerida**  
 Para rodar a aplicação, recomenda-se utilizar a **IntelliJ IDEA** ou **Eclipse**:  
