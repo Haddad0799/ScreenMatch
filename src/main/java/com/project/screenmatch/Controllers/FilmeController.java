@@ -1,6 +1,6 @@
 package com.project.screenmatch.Controllers;
 
-import com.project.screenmatch.dtos.FilmeDto;
+import com.project.screenmatch.dto.FilmeDto;
 import com.project.screenmatch.service.BuscarFilmeService;
 import com.project.screenmatch.service.FilmeFilterService;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,18 @@ public class FilmeController {
         this.filmeFilterService = filmeFilterService;
     }
 
-    @GetMapping("/{nomeFilme}")
+    @GetMapping
+    public ResponseEntity<List<FilmeDto>> allFilmes(){
+        return ResponseEntity.ok().body(filmeFilterService.allFilmes());
+    }
+
+    @GetMapping("/id={id}")
+    public ResponseEntity<FilmeDto> buscarFilme(@PathVariable Long id) {
+        return ResponseEntity.ok().body(buscarFilmeService.buscarFilme(id));
+
+    }
+
+    @GetMapping("/nome={nomeFilme}")
     public ResponseEntity<FilmeDto> buscarFilme(@PathVariable String nomeFilme){
         return ResponseEntity.ok()
                 .body(buscarFilmeService.buscarFilme(nomeFilme));
@@ -41,7 +52,7 @@ public class FilmeController {
                 .body(filmeFilterService.filmesLancamentos());
     }
 
-    @GetMapping("genero/{genero}")
+    @GetMapping("/genero={genero}")
     public ResponseEntity<List<FilmeDto>> filmesByGenero(@PathVariable String genero){
         return ResponseEntity.ok().body(filmeFilterService.filmesByGenero(genero));
     }

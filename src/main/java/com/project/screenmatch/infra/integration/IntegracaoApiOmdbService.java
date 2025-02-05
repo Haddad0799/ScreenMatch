@@ -1,4 +1,4 @@
-package com.project.screenmatch.integration;
+package com.project.screenmatch.infra.integration;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Service
-public class IntegracaoApiOmdbService implements IntegracaoApiExterna{
+public class IntegracaoApiOmdbService implements IntegracaoApiExterna {
 
     private final ObjectMapper mapper = new ObjectMapper();
 

@@ -1,11 +1,11 @@
 package com.project.screenmatch.service;
 
-import com.project.screenmatch.dtos.DadoOmdbTitulo;
-import com.project.screenmatch.dtos.SerieDto;
+import com.project.screenmatch.dto.DadoOmdbTitulo;
+import com.project.screenmatch.dto.SerieDto;
 import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
 import com.project.screenmatch.model.Episodio;
 import com.project.screenmatch.model.Serie;
-import com.project.screenmatch.repositorys.SerieRepository;
+import com.project.screenmatch.infra.repository.SerieRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -40,6 +40,8 @@ public class BuscarSerieService {
 
             Serie serieOmdb = new Serie(dadoOmdbTitulo);
 
+            //TradutorChatGptService.obterTraducao(serieOmdb.getSinopse());
+
             List<Episodio> episodiosSerieOmdb = buscarTituloOmdbService.buscarEpisodiosOmb(serieOmdb);
             episodiosSerieOmdb.forEach(e -> e.setSerie(serieOmdb));
 
@@ -50,5 +52,11 @@ public class BuscarSerieService {
             return new SerieDto(serieOmdb);
         }
         throw new TituloNotFoundException();
+    }
+
+    public SerieDto buscarSerie(Long id) {
+        Serie serie = serieRepository.findById(id).orElseThrow(TituloNotFoundException::new);
+
+        return new SerieDto(serie);
     }
 }

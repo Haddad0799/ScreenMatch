@@ -1,4 +1,4 @@
-package com.project.screenmatch.dtos;
+package com.project.screenmatch.dto;
 
 import com.project.screenmatch.model.Categoria;
 import com.project.screenmatch.model.Serie;

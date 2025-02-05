@@ -1,6 +1,7 @@
 package com.project.screenmatch.service;
 
 import com.project.screenmatch.dtos.FilmeDto;
+import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
 import com.project.screenmatch.infra.exceptions.TituloNotPresentException;
 import com.project.screenmatch.model.Categoria;
 import com.project.screenmatch.model.Filme;
@@ -16,6 +17,20 @@ public class FilmeFilterService {
 
     public FilmeFilterService(FilmeRepository filmeRepository) {
         this.filmeRepository = filmeRepository;
+    }
+
+    @Transactional
+    public List<FilmeDto> allFilmes(){
+        List<Filme> allFilmesDb = filmeRepository.findAll();
+
+        if (allFilmesDb.isEmpty()){
+            throw new TituloNotFoundException();
+        }
+
+        return allFilmesDb
+                .stream()
+                .map(FilmeDto::new)
+                .toList();
     }
 
     @Transactional

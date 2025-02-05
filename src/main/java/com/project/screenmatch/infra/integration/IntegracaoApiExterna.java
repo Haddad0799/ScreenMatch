@@ -1,4 +1,4 @@
-package com.project.screenmatch.integration;
+package com.project.screenmatch.infra.integration;
 
 public interface IntegracaoApiExterna {
 

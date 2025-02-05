@@ -1,6 +1,6 @@
 package com.project.screenmatch.infra.exceptions;
 
-import com.project.screenmatch.dtos.DadoOmdbTitulo;
+import com.project.screenmatch.dto.DadoOmdbTitulo;
 
 public class DadoOmdbTituloTipoNullException extends RuntimeException {
     public DadoOmdbTituloTipoNullException(DadoOmdbTitulo dadoOmdbTitulo) {
