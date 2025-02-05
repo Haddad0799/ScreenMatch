@@ -93,7 +93,7 @@ public static String obterTraducao(String texto) {
         }
     }
 ````
-#### ** OBSERVAÇÃO: ** A versão gratuita dessa funcionalidade possui um limite de requisições, fazendo com que essa funcionalidade as vezes NÃO funcione. Portanto mantive o método que realiza essa tradução comentado, retire o comentário caso deseje utilizar essa funcionalidade.
+#### **OBSERVAÇÃO:** A versão gratuita dessa funcionalidade possui um limite de requisições, fazendo com que essa funcionalidade as vezes NÃO funcione. Portanto mantive o método que realiza essa tradução comentado, retire o comentário caso deseje utilizar essa funcionalidade.
 ```sh
 //TradutorChatGptService.obterTraducao(filmeOmdb.getSinopse()); 
 ````
@@ -115,7 +115,13 @@ mvn spring-boot:run
 ##  🌐 **Endpoints Disponíveis** 
 - Com a aplicação rodando acesse o endpoint da documentação do swagger: http://localhost:8080/swagger-ui.html
 
-
+## 🔥 **Diferenciais do projeto** 
+- Arquitetura MVC e SOLID: A API segue o padrão de arquitetura MVC e aplica os princípios SOLID para garantir um código desacoplado, organizado e de fácil manutenção.
+- Tratamento de Erros Robusto: Implementação de exceptions personalizadas para fornecer mensagens claras e detalhadas sobre os erros, garantindo melhor experiência ao usuário e facilitando a depuração.
+- Uso de Streams e Funções Lambda: Código otimizado e mais legível com a utilização de Java Streams e expressões Lambda para manipulação de coleções e processamento de dados.
+- Banco de Dados Relacional: Persistência utilizando MySQL e Spring Data JPA, com mapeamento eficiente das entidades e consultas otimizadas.
+- Documentação Completa: API documentada com Swagger/OpenAPI, facilitando testes e integração com outras aplicações.
+- Integração com API Externa: Caso um título não seja encontrado no banco de dados, a API busca automaticamente na OMDb API e armazena os dados localmente, reduzindo chamadas externas futuras e otimizando a performance.
 
 
  
