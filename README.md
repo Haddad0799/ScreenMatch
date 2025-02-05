@@ -1,4 +1,4 @@
-# **ScreenMatch API - API de Filmes e Séries**  
+# 🎬 **ScreenMatch API - API de Filmes e Séries**  
 
 ## ✏️ **Introdução**  
 A **ScreenMatch API** é uma API desenvolvida para filtrar dados sobre filmes e séries renomadas e fornecer esses dados traduzidos em português. Este projeto foi criado para fins de aprendizado e fixação de conceitos de **APIs REST**, **integração com APIs externas** e para praticar o uso de **Streams** e **funções Lambda** no **Java**, visando um código mais curto, legível e eficiente.
@@ -8,112 +8,130 @@ A **ScreenMatch API** é uma API desenvolvida para filtrar dados sobre filmes e 
 ## 🛠️ **Tecnologias Usadas**
 - Java Versão 17+
 - Maven
-- Spring Versão 3
+- Spring Boot 3
 - Spring Data JPA
 - MySQL
 - Documentação com Swagger API
 
 ## ⚙️ **Instalação e Configuração**  
-### **Esta aplicação necessita de uma JVM para funcionar.**
-- Acesse esse link para baixar o JDK do java na versão 17: [Baixar JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+### **Pré-requisitos**  
+A aplicação requer a **JVM** para funcionar corretamente. 
 
-### **Clone o Repositório**
-Para clonar o repositório, use o comando abaixo no terminal:
+1. **Baixe e instale o JDK 17:**  
+   - [Baixar JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)  
 
-```sh
-git clone https://github.com/Haddad0799/screenmatch.git
-````
+2. **Clone o Repositório:**  
+   Execute o comando abaixo no terminal:  
 
-### **1️⃣ IDE Requerida**  
+   ```sh
+   git clone https://github.com/Haddad0799/screenmatch.git
+   ```  
+
+### **1️⃣ Escolha uma IDE**  
 Para rodar a aplicação, recomenda-se utilizar a **IntelliJ IDEA** ou **Eclipse**:  
-- **IntelliJ IDEA (Recomendado)**: [Baixar IntelliJ IDEA](https://www.jetbrains.com/idea/download/)  
-- **Eclipse**: [Baixar Eclipse](https://www.eclipse.org/downloads/)  
+- **IntelliJ IDEA (Recomendado):** [Baixar IntelliJ IDEA](https://www.jetbrains.com/idea/download/)  
+- **Eclipse:** [Baixar Eclipse](https://www.eclipse.org/downloads/)  
 
-### **2️⃣ Banco de Dados**  
+### **2️⃣ Configuração do Banco de Dados**  
 A aplicação requer um banco de dados **MySQL**.  
 
-#### **MySQL**  
+#### **Instale o MySQL conforme seu sistema operacional:**  
 - **Windows:** [Baixar MySQL](https://dev.mysql.com/downloads/installer/)  
 - **Linux:** [Instalar MySQL no Linux](https://dev.mysql.com/doc/refman/8.0/en/linux-installation.html)  
-- **Mac:** [Baixar MySQL para Mac](https://dev.mysql.com/downloads/mysql/)
+- **Mac:** [Baixar MySQL para Mac](https://dev.mysql.com/downloads/mysql/)  
 
-#### Após seguir os passos de instalação do MySQL execute o seguinte script:
-```plaintext
-CREATE DATABASE screenmatch
-````
+#### **Criação do Banco de Dados**  
+Após a instalação do MySQL, execute o seguinte comando no terminal ou no cliente SQL:  
 
-### **3️⃣ Variáveis de ambiente**
+```sql
+CREATE DATABASE screenmatch;
+```
 
-Recomendado a utilização da mesma nomenclatura na criação das seguintes variáveis:
+### **3️⃣ Configuração das Variáveis de Ambiente**  
+Recomenda-se utilizar a mesma nomenclatura para as seguintes variáveis de ambiente:
 
-- **OMDB_APIKEY**: Chave da API externa de filmes e séries para as requisições.
- [Link para obter a chave](https://www.omdbapi.com/apikey.aspx)
-- **MYSQL_DB_HOST**: Variável que representa o host do banco de dados.
-- **MYSQL_DB_USERNAME**: Variável com o nome do usuário do banco de dados.
-- **MYSQL_DB_PASSWORD**: Variável com a senha do usuário do banco de dados.
-- **OPENAI_APIKEY**: Chave da API do chatGpt para obter tradução dos dados.
-[Saiba como obter sua chave](https://gipiti.chat/get-chatgpt-api-key)
+- **OMDB_APIKEY:** Chave da API externa OMDB para buscar dados de filmes e séries.  
+  - [Obtenha sua chave aqui](https://www.omdbapi.com/apikey.aspx)  
+- **MYSQL_DB_HOST:** Endereço do host do banco de dados.  
+- **MYSQL_DB_USERNAME:** Usuário do banco de dados.  
+- **MYSQL_DB_PASSWORD:** Senha do banco de dados.  
+- **OPENAI_APIKEY:** Chave da API do ChatGPT para obter traduções.  
+  - [Obtenha sua chave aqui](https://gipiti.chat/get-chatgpt-api-key)  
 
-#### **OMDB_APIKEY**
-##### **Adicione sua chave OMDB nesses dois métodos da classe UrlConstrutor.class** 
-- **Path:** com.project.screenmatch.util
-```plaintext
- public String construirUrl(String tituloPesquisado) {
+#### **Configuração da Chave OMDB**  
+Adicione sua chave OMDB nos métodos da classe `UrlConstrutor.class`:  
 
-            return ENDERECO_BASE + tituloPesquisado.replace(" ", "+").toLowerCase()
-                    + API_KEY_ENDPOINT + System.getenv("SUA_OMDB_APIKEY_AQUI");
-        }
-````
-```plaintext
+- **Path:** `com.project.screenmatch.util`
+
+```java
+public String construirUrl(String tituloPesquisado) {
+    return ENDERECO_BASE + tituloPesquisado.replace(" ", "+").toLowerCase()
+            + API_KEY_ENDPOINT + System.getenv("OMDB_APIKEY");
+}
+```
+
+```java
 public String construirUrl(String tituloPesquisado, Integer temporada) {
+    return ENDERECO_BASE + tituloPesquisado.replace(" ", "+").toLowerCase()
+            + TEMPORADA_ENDPOINT + temporada + API_KEY_ENDPOINT + System.getenv("OMDB_APIKEY");
+}
+```
 
-            return ENDERECO_BASE + tituloPesquisado.replace(" ", "+").toLowerCase()
-                    + TEMPORADA_ENDPOINT + temporada +  API_KEY_ENDPOINT + System.getenv("SUA_OMDB_APIKEY_AQUI");
-        } 
-````
-#### **OPENAI_APIKEY**
-#### **Adicione sua API key do chatGpt no método estático da classe TradutorChatGptService.class.**
-- **Path:** com.project.screenmatch.service
-```plaintext
+#### **Configuração da Chave OpenAI**  
+Adicione sua chave OpenAI no método `obterTraducao` da classe `TradutorChatGptService.class`:
+
+- **Path:** `com.project.screenmatch.service`
+
+```java
 public static String obterTraducao(String texto) {
-        OpenAiService service = new OpenAiService(System.getenv("SUA_OPENAI_APIKEY_AQUI"));
+    OpenAiService service = new OpenAiService(System.getenv("OPENAI_APIKEY"));
 
-        CompletionRequest requisicao = CompletionRequest.builder()
-                .model("gpt-4")
-                .prompt("Please translate the following text into Portuguese: \n\n" + texto)
-                .maxTokens(1000)
-                .temperature(0.5) //
-                .build();
+    CompletionRequest requisicao = CompletionRequest.builder()
+            .model("gpt-4")
+            .prompt("Please translate the following text into Portuguese: \n\n" + texto)
+            .maxTokens(1000)
+            .temperature(0.5)
+            .build();
 
-        var resposta = service.createCompletion(requisicao);
-        if (resposta.getChoices() != null && !resposta.getChoices().isEmpty()) {
-            return resposta.getChoices().get(0).getText().trim();
-        } else {
-            return "Falha na tradução!";
-        }
+    var resposta = service.createCompletion(requisicao);
+    if (resposta.getChoices() != null && !resposta.getChoices().isEmpty()) {
+        return resposta.getChoices().get(0).getText().trim();
+    } else {
+        return "Falha na tradução!";
     }
-````
-#### **OBSERVAÇÃO:** A versão gratuita dessa funcionalidade possui um limite de requisições, fazendo com que essa funcionalidade as vezes NÃO funcione. Portanto mantive o método que realiza essa tradução comentado, retire o comentário caso deseje utilizar essa funcionalidade.
-```sh
-//TradutorChatGptService.obterTraducao(filmeOmdb.getSinopse()); 
-````
-#### **Variáveis do banco de dados:**
-- **Path:** application.properties
-```plaintext
-spring.datasource.url=jdbc:mysql://${SEU_MYSQL_DB_HOST_AQUI}/screenmatch
-spring.datasource.username=${SEU_MYSQL_DB_USERNAME_AQUI}
-spring.datasource.password=${SUA_MYSQL_DB_PASSWORD_AQUI}
+}
+```
+
+🔹 **Observação:** A versão gratuita da API OpenAI possui um limite de requisições. Caso deseje utilizar a funcionalidade de tradução, descomente o método no código:  
+```java
+//TradutorChatGptService.obterTraducao(filmeOmdb.getSinopse());
+```
+
+#### **Configuração do Banco de Dados**  
+Adicione as seguintes variáveis no `application.properties`:
+
+```properties
+spring.datasource.url=jdbc:mysql://${MYSQL_DB_HOST}/screenmatch
+spring.datasource.username=${MYSQL_DB_USERNAME}
+spring.datasource.password=${MYSQL_DB_PASSWORD}
 spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
 hibernate.dialect=org.hibernate.dialect.MySQLDialect
-````
-### **4️⃣ Compile e execute a aplicação**
-```plaintext
-mvn spring-boot:run
-````
-#### A aplicação estará rodando em :(http://localhost:8080) 
+```
 
-##  🌐 **Endpoints Disponíveis** 
-- Com a aplicação rodando acesse o endpoint da documentação do swagger: http://localhost:8080/swagger-ui.html
+### **4️⃣ Compilar e Executar a Aplicação**  
+
+Execute o seguinte comando no terminal dentro do diretório do projeto:
+
+```sh
+mvn spring-boot:run
+```
+
+A aplicação estará rodando em: [http://localhost:8080](http://localhost:8080)
+
+## 🌐 **Endpoints Disponíveis**  
+Acesse a documentação Swagger da API para explorar os endpoints disponíveis:  
+
+📌 **Swagger UI:** [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
 
 ## 🔥 **Diferenciais do projeto** 
 - Arquitetura MVC e SOLID: A API segue o padrão de arquitetura MVC e aplica os princípios SOLID para garantir um código desacoplado, organizado e de fácil manutenção.
