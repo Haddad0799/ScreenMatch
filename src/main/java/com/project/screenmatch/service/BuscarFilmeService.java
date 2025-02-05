@@ -3,7 +3,7 @@ package com.project.screenmatch.service;
 import com.project.screenmatch.dto.DadoOmdbTitulo;
 import com.project.screenmatch.dto.FilmeDto;
 import com.project.screenmatch.infra.exceptions.TituloNotFoundException;
-import com.project.screenmatch.model.Filme;
+import com.project.screenmatch.domain.entities.Filme;
 import com.project.screenmatch.infra.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 

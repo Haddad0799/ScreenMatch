@@ -1,4 +1,4 @@
-package com.project.screenmatch.model;
+package com.project.screenmatch.domain.model;
 
 import com.project.screenmatch.infra.exceptions.CategoriaNotFoundException;
 
@@ -41,8 +41,6 @@ public enum Categoria {
         }
         throw new CategoriaNotFoundException(text);
     }
-
-
 }
 
 

@@ -1,21 +1,28 @@
-package com.project.screenmatch.model;
+package com.project.screenmatch.domain.entities;
 
+import com.project.screenmatch.domain.model.Categoria;
 import com.project.screenmatch.dto.DadoOmdbTitulo;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
 @Getter
 @Entity
-@Table(name = "Filmes")
-public class Filme extends Titulo {
+@Table(name = "Series")
+public class Serie extends Titulo {
+    private Integer temporadas;
 
 
-    public Filme(DadoOmdbTitulo dadoOmdb) {
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Episodio> episodios = new ArrayList<>();
+
+    public Serie(DadoOmdbTitulo dadoOmdb) {
         super();
         this.titulo = dadoOmdb.titulo();
+        this.temporadas = dadoOmdb.temporadas();
         this.ano = dadoOmdb.ano();
         this.dataDeLancamento = dadoOmdb.dataDeLancamento();
         this.tempoDeDuracao = dadoOmdb.tempoDeDuracao();
@@ -32,5 +39,10 @@ public class Filme extends Titulo {
         this.votos = Long.parseLong(dadoOmdb.votos().replace(",", ""));
     }
 
-    public Filme() {}
+    public void setEpisodios(List<Episodio> episodios) {
+        episodios.forEach(e -> e.setSerie(this));
+        this.episodios = episodios;
+    }
+
+    public Serie() {}
 }

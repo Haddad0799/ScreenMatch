@@ -1,6 +1,6 @@
 package com.project.screenmatch.infra.repository;
 
-import com.project.screenmatch.model.Filme;
+import com.project.screenmatch.domain.entities.Filme;
 import org.springframework.stereotype.Repository;
 
 @Repository

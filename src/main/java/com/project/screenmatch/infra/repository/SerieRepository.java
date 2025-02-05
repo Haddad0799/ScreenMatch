@@ -1,7 +1,7 @@
 package com.project.screenmatch.infra.repository;
 
-import com.project.screenmatch.model.Episodio;
-import com.project.screenmatch.model.Serie;
+import com.project.screenmatch.domain.entities.Episodio;
+import com.project.screenmatch.domain.entities.Serie;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;

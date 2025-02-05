@@ -1,7 +1,7 @@
 package com.project.screenmatch.dto;
 
-import com.project.screenmatch.model.Categoria;
-import com.project.screenmatch.model.Filme;
+import com.project.screenmatch.domain.model.Categoria;
+import com.project.screenmatch.domain.entities.Filme;
 
 public record FilmeDto(
         long id,
